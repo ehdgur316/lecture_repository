@@ -29,6 +29,9 @@ class Animal {
 }
 
 class Person extends Animal {
+	public void breathe() {
+		System.out.println("사람 호흡");
+	}
 	public static void main(String[] args) {
 		Person human = new Person();
 		human.breathe();
