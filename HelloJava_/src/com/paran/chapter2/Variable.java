@@ -6,6 +6,13 @@ package com.paran.chapter2;
  */
 public class Variable {
 	int varType;
+	
+	/*
+	 * static 한정자의 사용
+	 *  1. 멤버 변수에 사용 - 상수(불변의 값) 선언
+	 *  2. 메서드에 사용 - Overriding 불가 메서드 선언(inheritance 연관)
+	 *  3. class에 사용 - Extends 불가 class 선언(inheritance 연관)
+	 */
 	final static int MAX_NO = 5;
 	static int MAX_NUM = 10;
 	
