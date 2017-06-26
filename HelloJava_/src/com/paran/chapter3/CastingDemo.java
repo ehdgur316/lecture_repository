@@ -25,11 +25,11 @@ public class CastingDemo {
 	
 	public static void main(String[] args) {
 		// 2. CastiongDemo class의 Instance 생성
-		CastingDemo vTest = new CastingDemo();
+		CastingDemo varTest = new CastingDemo();
 		
 		// 3. vTest Instance에 존재하는 3개의 instance 변수에 값 Assign
-		vTest.num1 = 10000000000;
-		vTest.num2 = 10000000000;
-		vTest.num3 = 12.45;
+		varTest.num1 = 10000000000;
+		varTest.num2 = 10000000000;
+		varTest.num3 = 12.45;
 	}
 }
