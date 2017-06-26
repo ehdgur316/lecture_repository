@@ -16,6 +16,7 @@ package com.paran.chapter3;
  * Up Casting : 본래 표현 가능한 변수 형태보다 표현 범위가 더 넓은 변수로 형태를 변환
  * Down Casting : 본래 표현 가능한 변수 형태보다 표현 범위가 더 좁은 변수로 형태를 변환
  * (class inheritance에서도 동일한 용어 사용. 단, 의미는 다름)
+ * byte와 short은 연산시 int로 변환되어 출력됨 -> 특수한 경우
  */
 public class CastingDemo {
 	// 1. int, long, float type instance 변수 선언
@@ -31,6 +32,13 @@ public class CastingDemo {
 		varTest.num1 = 2147483647;           // 10000000000;(X) - Integer형 최대치 초과
 		varTest.num2 = 9223372036854775807L; // 10000000000;(X) - Long형 Literal은 접미사 L(l) 필요
 		varTest.num3 = 12.45F;               // 12.45;(X) - Float 형 Literal은 접미사 F(f) 필요
+		
+		short num4 = 10;
+		short num5 = 20;
+		// Short + Short = Integer - 결과값 변수를 int형으로 받거나 결과값을 int로 Up Casting
+		//short result = num4 + num5;
+		short result = (short)(num4 + num5);
+		System.out.println(result);
 	}
 	
 	// instance member function - instance member variable 사용 가능
