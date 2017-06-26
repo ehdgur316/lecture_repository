@@ -28,8 +28,15 @@ public class CastingDemo {
 		CastingDemo varTest = new CastingDemo();
 		
 		// 3. varTest Instance에 존재하는 3개의 instance 변수에 값 Assign
-		varTest.num1 = 10000000000;
-		varTest.num2 = 10000000000;
-		varTest.num3 = 12.45;
+		varTest.num1 = 2147483647; // 10000000000;(X) - Integer형 최대치 초과
+		varTest.num2 = 9223372036854775807L; // 10000000000;(X) - Long형 Literal은 접미사 L(l) 필요
+		varTest.num3 = 12.45F; // 12.45;(X) - Float 형 Literal은 접미사 F(f) 필요
+	}
+	
+	// instance member function - instance member variable 사용 가능
+	public void showInfo() {
+		System.out.println(num1);
+		System.out.println(num2);
+		System.out.println(num3);
 	}
 }
