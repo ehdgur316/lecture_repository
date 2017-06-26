@@ -27,7 +27,7 @@ public class CastingDemo {
 		// 2. CastiongDemo class의 Instance 생성
 		CastingDemo varTest = new CastingDemo();
 		
-		// 3. vTest Instance에 존재하는 3개의 instance 변수에 값 Assign
+		// 3. varTest Instance에 존재하는 3개의 instance 변수에 값 Assign
 		varTest.num1 = 10000000000;
 		varTest.num2 = 10000000000;
 		varTest.num3 = 12.45;
