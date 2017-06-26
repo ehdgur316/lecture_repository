@@ -25,7 +25,7 @@ public class CastingDemo {
 	float num3;
 	
 	public static void main(String[] args) {
-		// 2. CastiongDemo class의 Instance 생성
+		// 2. CastingDemo class의 Instance 생성
 		CastingDemo varTest = new CastingDemo();
 		
 		// 3. varTest Instance에 존재하는 3개의 instance 변수에 값 Assign
