@@ -1,5 +1,13 @@
 package com.paran.chapter5;
 
+/*
+ * 실행흐름 제어(Flow Control)
+ * 메서드 실행 분류
+ *  1. 동기함수
+ *   흐름 제어에 의해 메서드의 반환값을 기다리는 경우(통상적인 Method)
+ *  2. 비동기함수
+ *   흐름 제어와는 별개로 메서드를 실행한 후 반환값을 기다리지 않는 경우(Socket Programming)
+ */
 public class ControlStatementDemo {
 	public static void main(String[] args/*String args[] 도 허용*/) {
 		/*
