@@ -12,3 +12,6 @@
      (추상 class -> class 내에 추상 메서드가 존재하거나, 강제로 abstract class로 선언하여 생성.
     				강제로 선언할 경우 해당 class로는 Instance 생성 불가)
   4) synchronized(또는 volatile) - thread 관련
+  
+recursive method(재귀 메서드)
+ 메서드 내에서 자기 자신을 다시 호출하는 메서드. 수학 팩토리얼이나 트리와 같은 계층구조의 추적에 사용
