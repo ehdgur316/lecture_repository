@@ -1,0 +1,14 @@
+지정자(한정자, Modifier)
+ 1. 접근지정자(Access Modifier)
+  1) public - 전 지역에서 사용 가능
+  2) private - 선언된 class 내에서만 사용 가능(상속받은 class에서 사용 불가)
+  3) protected - 선언된 class 내에서만 사용 가능(상속받은 class에서 사용 가능)
+  4) 없음 - 동일 package 내에서 사용 가능
+
+ 2. 비접근지정자(Non-access Modifier)
+  1) final - 상수, 상속 금지 class나 Overriding 금지 메서드 선언
+  2) static - Instance 또는 Class 멤버 함수, 변수 구별
+  3) abstract - 추상 class나 메서드 생성
+     (추상 class -> class 내에 추상 메서드가 존재하거나, 강제로 abstract class로 선언하여 생성.
+    				강제로 선언할 경우 해당 class로는 Instance 생성 불가)
+  4) synchronized(또는 volatile) - thread 관련
