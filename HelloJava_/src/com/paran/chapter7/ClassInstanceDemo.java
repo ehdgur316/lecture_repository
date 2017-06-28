@@ -5,7 +5,7 @@ package com.paran.chapter7;
  *  단, 서로 다른 패키지에서는 public class만 가져올 수 있음
  */
 // com.paran.chapter5 패키지 내에 있는 Student class import
-import com.paran.chapter5.Student;
+import com.paran.chapter7.Student;
 
 public class ClassInstanceDemo {
 	@SuppressWarnings("unused") // if 조건문 내의 Dead Code 경고 비활성화
@@ -17,5 +17,8 @@ public class ClassInstanceDemo {
 		Student obj = null;
 		// if 조건을 활용한 NullPointerException 검사
 		if ( obj != null ) System.out.println(obj.getIsMilSer());
+		
+		obj = new Student("1", "1", true);
+		obj.name = "홍길동";
 	}
 }

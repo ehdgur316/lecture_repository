@@ -6,9 +6,9 @@ public class Student {
 	 *  1. public - 전 지역에서 접근 가능한 멤버 변수 또는 함수
 	 *  2. private - 내 class 내에서만 접근 가능한 멤버 변수 또는 함수
 	 */
-	private String name;
-	private String stdID;
-	private boolean isMilSer;
+	String name;
+	String stdID;
+	protected boolean isMilSer;
 	
 	/*
 	 * private instance 멤버 변수를 가진 class에 기본 생성자를 만들면 안되는 이유
