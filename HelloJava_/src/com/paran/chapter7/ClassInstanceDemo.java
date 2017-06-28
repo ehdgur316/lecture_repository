@@ -8,6 +8,7 @@ package com.paran.chapter7;
 import com.paran.chapter5.Student;
 
 public class ClassInstanceDemo {
+	@SuppressWarnings("unused") // if 조건문 내의 Dead Code 경고 비활성화
 	public static void main(String[] args) {
 		/*
 		 * Null로 초기화한 Reference 변수에 접근할 경우
