@@ -12,5 +12,6 @@ public class AccessModifierDemo{
 		 */
 		//stdObj.name = "홍길동";
 		UnivStudent uStdObj = new UnivStudent("2", "2", true);
+		uStdObj.showInfo();
 	}
 }

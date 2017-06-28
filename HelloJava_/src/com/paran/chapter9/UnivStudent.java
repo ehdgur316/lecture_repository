@@ -11,7 +11,7 @@ import com.paran.chapter7.Student;
 // chapter7에 존재하는 Student class 상속
 public class UnivStudent extends Student{
 	public UnivStudent(String name, String stdID, boolean isMilSer) {
-		// 부모 class의 생성자함수를 호출
+		// 부모 class의 생성자함수를 호출(super -> 자식 class에서 부모 class에 접근)
 		super(name, stdID, isMilSer);
 	}
 	
@@ -23,6 +23,6 @@ public class UnivStudent extends Student{
 	public void showInfo() {
 		// 부모 class에 있는 showInfo method를 호출
 		super.showInfo();
-		System.out.println("제대여부" + isMilSer);
+		System.out.println("제대여부 : " + isMilSer);
 	}
 }
