@@ -41,21 +41,19 @@ public class ArraySorting {
 	 */
 	public static void bubbleSort(int[] array, boolean incSort) {
 		int tmpNum;
-		int sortLoop = array.length;
 		
-		while (sortLoop != 1) {
-			for (int i = 1; i < array.length; i++) {
-				if (incSort == true && array[i - 1] > array[i]) {
-					tmpNum = array[i];
-					array[i] = array[i - 1];
-					array[i - 1] = tmpNum;
-				} else if (incSort == false && array[i - 1] < array[i]) {
-					tmpNum = array[i];
-					array[i] = array[i - 1];
-					array[i - 1] = tmpNum;
-				}
+		for (int i = 1; i < array.length; i++) {
+			if (incSort == true && array[i - 1] > array[i]) {
+				tmpNum = array[i];
+				array[i] = array[i - 1];
+				array[i - 1] = tmpNum;
+				i = 0;
+			} else if (incSort == false && array[i - 1] < array[i]) {
+				tmpNum = array[i];
+				array[i] = array[i - 1];
+				array[i - 1] = tmpNum;
+				i = 0;
 			}
-			sortLoop--;
 		}
 	}
 }
