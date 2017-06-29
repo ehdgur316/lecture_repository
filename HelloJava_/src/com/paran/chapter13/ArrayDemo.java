@@ -1,7 +1,7 @@
 package com.paran.chapter13;
 
 /**
- * for-each 구문을 활용한 배열 값 설정 및 역순 재배치, 출력
+ * 배열 값 설정 및 역순 재배치, 출력
  * @author ehdgur316
  */
 public class ArrayDemo {
