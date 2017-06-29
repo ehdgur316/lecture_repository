@@ -1,4 +1,4 @@
-package com.paran.chapter5;
+package com.paran.chapter05;
 public class Student {
 	/*
 	 * public, private - 접근한정자/지정자

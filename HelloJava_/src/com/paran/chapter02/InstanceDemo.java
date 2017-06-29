@@ -1,4 +1,4 @@
-package com.paran.chapter2;
+package com.paran.chapter02;
 
 public class InstanceDemo {
 	public static void main(String[] args) {

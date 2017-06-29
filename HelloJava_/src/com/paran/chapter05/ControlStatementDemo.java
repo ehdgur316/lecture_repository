@@ -1,4 +1,4 @@
-package com.paran.chapter5;
+package com.paran.chapter05;
 
 /*
  * 실행흐름 제어(Flow Control)

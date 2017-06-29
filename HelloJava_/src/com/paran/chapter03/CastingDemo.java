@@ -1,4 +1,4 @@
-package com.paran.chapter3;
+package com.paran.chapter03;
 /*
  * 암시적/명시적 형변환(Implicit/Explicit)
  *  1. 암시적 형변환

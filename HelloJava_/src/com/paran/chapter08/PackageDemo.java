@@ -1,4 +1,4 @@
-package com.paran.chapter8;
+package com.paran.chapter08;
 
 /*
  *  class 누락 변수에 ctrl + shift + O 입력 -> 해당 class를 자동으로 import
@@ -14,7 +14,7 @@ public class PackageDemo {
 		 *  import 없이 Package의 경로를 모두 지정해줘도 사용 가능
 		 *  (비정상적인 사용방법)
 		 */
-		com.paran.chapter5.Student obj = new com.paran.chapter5.Student();
+		com.paran.chapter05.Student obj = new com.paran.chapter05.Student();
 		//Student obj1 = new Student();
 	}
 }

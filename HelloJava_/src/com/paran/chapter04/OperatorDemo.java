@@ -1,4 +1,4 @@
-package com.paran.chapter4;
+package com.paran.chapter04;
 
 /*
  * 연산자

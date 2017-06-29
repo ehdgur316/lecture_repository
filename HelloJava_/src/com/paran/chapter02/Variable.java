@@ -1,4 +1,4 @@
-package com.paran.chapter2;
+package com.paran.chapter02;
 
 /*
  * github 작업 중 실수로 데이터 삭제함

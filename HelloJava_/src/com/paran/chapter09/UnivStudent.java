@@ -1,6 +1,6 @@
-package com.paran.chapter9;
+package com.paran.chapter09;
 
-import com.paran.chapter7.Student;
+import com.paran.chapter07.Student;
 
 /*
  * 상속받은 class의 규칙

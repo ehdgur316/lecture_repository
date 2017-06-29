@@ -1,6 +1,6 @@
-package com.paran.chapter9;
+package com.paran.chapter09;
 
-import com.paran.chapter7.Student;
+import com.paran.chapter07.Student;
 
 public class AccessModifierDemo{
 	@SuppressWarnings("unused")

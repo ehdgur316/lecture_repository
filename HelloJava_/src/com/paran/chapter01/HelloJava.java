@@ -1,4 +1,4 @@
-package com.paran.chapter1;
+package com.paran.chapter01;
 /* UTF-8 Encoded */
 
 /* 

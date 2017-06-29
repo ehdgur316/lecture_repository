@@ -1,4 +1,4 @@
-package com.paran.chapter5;
+package com.paran.chapter05;
 
 public class BreakContinueDemo {
 	public static void main(String[] args) {

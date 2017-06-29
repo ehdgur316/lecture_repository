@@ -1,11 +1,6 @@
-package com.paran.chapter7;
+package com.paran.chapter07;
 
-/*
- *  외부 패키지의 class를 가져오는 방법 - import
- *  단, 서로 다른 패키지에서는 public class만 가져올 수 있음
- */
-// com.paran.chapter5 패키지 내에 있는 Student class import
-import com.paran.chapter7.Student;
+import com.paran.chapter07.Student;
 
 public class ClassInstanceDemo {
 	@SuppressWarnings("unused") // if 조건문 내의 Dead Code 경고 비활성화
