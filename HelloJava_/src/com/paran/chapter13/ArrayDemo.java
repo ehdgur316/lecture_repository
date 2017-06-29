@@ -5,6 +5,30 @@ package com.paran.chapter13;
  * @author ehdgur316
  */
 public class ArrayDemo {
+	int[][] dataMatrixArray;
+	/**
+	 * 2차원 행렬을 정해진 값으로 채워 초기화.<br/>
+	 * 정해진 값은 1부터 순차적으로 증가하는 행렬
+	 * @param firstDimSize 2차원 행렬의 행의 크기
+	 * @param secondDimSize 2차원 행렬의 열의 크기
+	 */
+	public void initMatrixArray(int firstDimSize, int secondDimSize){
+		// nXn Matrix 형태. {{}, ...}, ... 형태로도 초기화 가능
+		dataMatrixArray = new int[firstDimSize][secondDimSize];
+		// 배열의 길이를 확인하여 Index 제어 -> NullPointerException 회피
+		for (int i = 0 ; i < dataMatrixArray.length ; i++) {
+			for (int j = 0 ; j < dataMatrixArray[i].length ; j++) {
+				dataMatrixArray[i][j] = i * dataMatrixArray[i].length + j + 1;
+			}
+		}
+	}
+	
+	/**
+	 * 행렬의 형태를 무시하고 변형 이차원 행렬 생성
+	 */
+	public void transformArray(){
+		dataMatrixArray[3] = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+	}
 	public static void main(String[] args) {
 		int[] numArr = new int[10];
 		
@@ -17,6 +41,21 @@ public class ArrayDemo {
 		reverseArray(numArr);
 		System.out.println("Reversed Array");
 		printArray(numArr);
+		
+		// 2차원 행렬 생성
+		ArrayDemo matrixArray = new ArrayDemo();
+		matrixArray.initMatrixArray(4, 4);
+		
+		// 2차원 행렬의 형태 변형(4X4에서 3X4 + 1X8 조합배열로)
+		matrixArray.transformArray();
+		
+		// 2차원 행렬 출력
+		for (int i = 0 ; i < matrixArray.dataMatrixArray.length ; i++) {
+			for (int j = 0 ; j < matrixArray.dataMatrixArray[i].length ; j++) {
+				System.out.print(matrixArray.dataMatrixArray[i][j] + "\t");
+			}
+			System.out.println();
+		}
 	}
 	
 	/**
