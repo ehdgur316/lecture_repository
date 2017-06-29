@@ -48,7 +48,7 @@ public class ArrayDemo {
 	
 	/**
 	 * Array에 설정되어 있는 값을 역순으로 재배치
-	 * @param array
+	 * @param array 값을 역순 재배치할 배열
 	 */
 	public static void reverseArray(int[] array) {
 		int targetNum;
