@@ -54,29 +54,4 @@ public class ArrayDemo {
 			array[i] = targetNum;
 		}
 	}
-	
-	/**
-	 * Array 배열을 incSort에 따라 오름차순 또는 내림차순으로 정렬
-	 * @param array 값을 정렬할 배치
-	 * @param incSort 오름차순 또는 내림차순 설정
-	 */
-	public static void bubbleSort(int[] array, boolean incSort) {
-		int tmpNum;
-		int sortLoop = array.length;
-		
-		while (sortLoop != 1) {
-			for (int i = 1; i < array.length; i++) {
-				if (incSort == true && array[i - 1] > array[i]) {
-					tmpNum = array[i];
-					array[i] = array[i - 1];
-					array[i - 1] = tmpNum;
-				} else if (incSort == false && array[i - 1] < array[i]) {
-					tmpNum = array[i];
-					array[i] = array[i - 1];
-					array[i - 1] = tmpNum;
-				}
-			}
-			sortLoop--;
-		}
-	}
 }
