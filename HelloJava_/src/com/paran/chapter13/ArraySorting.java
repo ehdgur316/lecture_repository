@@ -24,7 +24,7 @@ public class ArraySorting {
 	}
 
 	/**
-	 * 매개변수 Array의 배열값을 순차적으로 출력<br/>
+	 * 매개변수 Array의 배열값을 순차적으로 출력
 	 * @param array 값을 출력할 배열
 	 */
 	public static void printArray(int[] array) {
