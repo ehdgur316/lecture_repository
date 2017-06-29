@@ -68,6 +68,7 @@ public class ControlStatementDemo {
 		/*
 		 * for 구문의 다른 형태(for each 구문 - 배열의 각 구성요소 순차적 접근)
 		 * for 구문에 비해 오류 발생 여지가 적고 안정적
+		 * for-each 구문에서 new를 사용해 새 Instance를 할당하는 행위는 적용되지 않음에 주의
 		 */
 		System.out.println("for each, if 조건문 출력");
 		for (Student std : stdArr) {
