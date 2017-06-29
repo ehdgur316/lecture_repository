@@ -17,22 +17,6 @@ public class ArrayDemo {
 		reverseArray(numArr);
 		System.out.println("Reversed Array");
 		printArray(numArr);
-		
-		// 정렬되지 않은 배열 생성 및 출력
-		int [] nonSortedToIncArr = new int[] {8, 1, 6, 4, 10, 7, 5, 2, 9, 3};
-		System.out.println("Non Sorted Array");
-		printArray(nonSortedToIncArr);
-		
-		// 버블 정렬을 사용하여 주어진 배열을 오름차순으로 정렬
-		bubbleSort(nonSortedToIncArr, true);
-		System.out.println("Bubble Sorted(Inc) Array");
-		printArray(nonSortedToIncArr);
-		
-		// 버블 정렬을 사용하여 주어진 배열을 내림차순으로 정렬
-		int [] nonSortedToDecArr = new int[] {8, 1, 6, 4, 10, 7, 5, 2, 9, 3};
-		bubbleSort(nonSortedToDecArr, false);
-		System.out.println("Bubble Sorted(Dec) Array");
-		printArray(nonSortedToDecArr);
 	}
 	
 	/**
