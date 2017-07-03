@@ -113,15 +113,4 @@ public class ArraySorting {
 		}
 
 	}
-	
-	public static void radixSort(int[] array) {
-		int exponent = 0;
-		
-		radixSort(array, exponent + 1);
-	}
-	
-	public static void radixSort(int[] array, int exponent) {
-		
-		radixSort(array, exponent + 1);
-	}
 }
