@@ -24,6 +24,10 @@ public class InheritanceDemo {
 }
 
 class A {
+	/*
+	 * 부모 class에서 별도의 역할이 있는 생성자 함수를 선언할 경우
+	 * 이를 상속한 모든 자식 class 함수는 자신의 생성자 함수를 통해 부모 생성자 함수를 호출해야함
+	 */
 	public A(int age) {
 		this.age = age; // 자식 class에서 호출하는 생성자 함수 super()의 원형
 	}
@@ -36,6 +40,11 @@ class A {
 }
 
 class B extends A {
+	/*
+	 * 상속 관계의 class에서 부모 class가 다른 매개변수를 요구하는 생성자 함수가 있을 경우
+	 * 자식 class에서 기본 생성자 함수를 사용할 수 없고
+	 * 부모 class의 생성자 함수를 호출하는 자식 class의 생성자 함수를 따로 선언해줘야 함
+	 */
 	public B(int age) {
 		super(age); // 부모 class인 class A의 생성자 함수를 호출(매개변수 age)
 		this.age = age; // 자기 자신의 Instance 변수에 매개변수 age 값을 할당
