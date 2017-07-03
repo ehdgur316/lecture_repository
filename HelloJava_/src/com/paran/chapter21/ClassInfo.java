@@ -59,6 +59,8 @@ abstract class Student {
 /*
  * 목표 1. txt 파일로부터 값(이름, 학번, 국/영/수 점수, 내/외국인 구분, 주민/외국인 번호)을 읽어
  * 각 학생별로 정보를 채워넣는 코드 작성
+ * File Read Method -> BufferdReader [ident] = new BufferedReader(new FileReader([dir]));
+ * String Spilt -> String str[] = [srcString].split([value]);
  */
 class DomeStudent extends Student {
 	private String resiID;
