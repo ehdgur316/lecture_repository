@@ -96,32 +96,32 @@ public class ArraySorting {
 		int[] targetNum;
 		int tmpNum;
 
-		if (incSort == true) {
-			for (int i = 0 ; i < array.length ; i++) {
-				targetNum = new int[]{array[i], i};
-				for (int j = i ; j < array.length ; j++) {
-					if (targetNum[0] > array[j]) {
-						targetNum[0] = array[j];
-						targetNum[1] = j;
-					}
+		for (int i = 0; i < array.length; i++) {
+			targetNum = new int[] { array[i], i };
+			for (int j = i; j < array.length; j++) {
+				if (incSort == true && targetNum[0] > array[j]) {
+					targetNum[0] = array[j];
+					targetNum[1] = j;
+				} else if (incSort == false && targetNum[0] < array[j]) {
+					targetNum[0] = array[j];
+					targetNum[1] = j;
 				}
-				tmpNum = array[targetNum[1]];
-				array[targetNum[1]] = array[i];
-				array[i] = tmpNum;
 			}
-		} else {
-			for (int i = 0 ; i < array.length ; i++) {
-				targetNum = new int[]{array[i], i};
-				for (int j = i ; j < array.length ; j++) {
-						if (targetNum[0] < array[j]) {
-						targetNum[0] = array[j];
-						targetNum[1] = j;
-					}
-				}
-				tmpNum = array[targetNum[1]];
-				array[targetNum[1]] = array[i];
-				array[i] = tmpNum;
-			}
+			tmpNum = array[targetNum[1]];
+			array[targetNum[1]] = array[i];
+			array[i] = tmpNum;
 		}
+
+	}
+	
+	public static void radixSort(int[] array) {
+		int exponent = 0;
+		
+		radixSort(array, exponent + 1);
+	}
+	
+	public static void radixSort(int[] array, int exponent) {
+		
+		radixSort(array, exponent + 1);
 	}
 }
