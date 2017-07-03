@@ -4,12 +4,16 @@ public class InheritanceDemo {
 	public static void main(String[] args) {
 		B instB = new B(10); // instB의 Type은 class B reference type
 		A instA;
+		C instC = new C(15);
 		
 		instB.methodA(); // Overriding된 class B의 methodA() 실행
 		//instB.salary = 1; // class B의 Instance로 Instance Member Variable 접근
 		//instB.age = 1; // class B의 Instance로 부모 Class의 Instance Member Variable 접근
 		
-		instA = instB;
+		instA = instB; /* instA = instC도 할당가능(최상위 부모 class A)
+					    * 마찬가지로 Object type 변수에 모든 class를 할당할 수 있음(모든 class의 부모)
+					   	*/
+		
 		instA.methodA(); // instA의 Instance는 class B이므로 class B의 methodA() 실행
 		//instA.methodB(); // class A에는 methodB가 없으므로 class A type인 instA로는 실행 불가
 		
@@ -18,8 +22,10 @@ public class InheritanceDemo {
 		 * 굉장히 권장하지 않는 방법
 		 * 멤버 변수의 경우, JAVA의 다형성의 영향을 받지 않음
 		 */
-		System.out.println(instA.age); // class A의 age 값(=1) 출력
-		System.out.println(((B)instA).age); // class B의 age 값(=2) 출력
+		System.out.println(instA.age); // class A의 age 값 출력
+		System.out.println(((B)instA).age); // class B의 age 값 출력
+		
+		System.out.println(instC.age); // class C의 age 값 출력
 	}
 }
 
@@ -64,4 +70,15 @@ class B extends A {
 	public void methodC() {
 		System.out.println(super.age);
 	}
+}
+
+class C extends B {
+	// class C의 부모 class인 class B의 생성자 함수 호출 필요
+	public C(int age) {
+		super(age);
+		// TODO Auto-generated constructor stub
+		this.age = age;
+	}
+	
+	public int age;
 }
