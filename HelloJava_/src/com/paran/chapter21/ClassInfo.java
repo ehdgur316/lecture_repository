@@ -21,33 +21,52 @@ public class ClassInfo {
 	 * stdList 안에는 DomeStudent, ForeStudent 두 가지 타입의 변수 할당
 	 * IS-A 관계의 변수를 모두 포함할 수 있는 복합자료체 Generic
 	 */
-	List<Student> stdList = new ArrayList<Student>();
+	List<Student> stuList = new ArrayList<Student>();
 	
 	public static void main(String[] args) throws IOException {
 		BufferedWriter resultFile = new BufferedWriter(new FileWriter("C:\\Users\\j\\lecture\\HelloJava_\\src\\com\\paran\\chapter21\\result.txt"));
-		ClassInfo stdReportCard = new ClassInfo();
-		stdReportCard.initStudent();
-		stdRankManager stdRank = new stdRankManager(stdReportCard.stdList);
-		int[] classRank = stdRank.getRankArray();
-		
-		int index = 0;
+		ClassInfo stuReportCard = new ClassInfo();
+		stuReportCard.initStudent();
+		StuRankManager stuRank = new StuRankManager(stuReportCard.stuList);
+		int[][] classRank = stuRank.getRankArray();
 		
 		// 입력할 내용을 하나의 String type 변수에 전부 넣고 파일에 한 번에 Output
 //		String outputBuffer = "======================= Student Info =======================\r\n";
 //		for (Student std : stdReportCard.stdList) {
 //			outputBuffer += std.showInfo();
-//			outputBuffer += "Class Rank => " + classRank[index++] + "\r\n";
+//			for (int i = 0 ; i < classRank[0].length ; i++) {
+//				if (classRank[0][i] == Integer.parseInt(std.getStdID())) {
+//					outputBuffer += "Class Rank => " + classRank[1][i] + "\r\n";
+//					break;
+//				}
+//			}
 //		}
-//		outputBuffer += "========================= Info End =========================\r\n";
+//		outputBuffer += "========================= Info End =========================";
 //		resultFile.write(outputBuffer);
 		
 		// 출력할 내용이 있을 때마다 파일에 즉시 Output
 		resultFile.write("======================= Student Info =======================\r\n");
-		for (Student std : stdReportCard.stdList) {
-			resultFile.write(std.showInfo());
-			resultFile.write(("Class Rank => " + classRank[index++] + "\r\n"));
+//		for (Student stu : stuReportCard.stuList) {
+//			resultFile.write(stu.showInfo());
+//			for (int i = 0 ; i < classRank[0].length ; i++) {
+//				if (classRank[0][i] == Integer.parseInt(stu.getStuID())) {
+//					resultFile.write(("Class Rank => " + classRank[1][i] + "\r\n"));
+//					break;
+//				}
+//			}
+//		}
+		
+		// classRank Array의 순위 순서대로 stuList의 Student 객체 정보 출력
+		for (int i = 0 ; i < stuReportCard.stuList.size(); i++) {
+			for (int j = 0; j < classRank[0].length; j++) {
+				if (classRank[1][j] == (i + 1)) {
+					resultFile.write(stuReportCard.stuList.get(j).showInfo());
+					resultFile.write(("Class Rank =>" + classRank[1][j] + "\r\n"));
+				}
+			}
 		}
 		resultFile.write("========================= Info End =========================");
+		
 		resultFile.close();
 	}
 	
@@ -63,12 +82,12 @@ public class ClassInfo {
 			String[] strBuffer = fileLine.split("\t");
 			
 			if (strBuffer[5].equals("D")) {
-				stdList.add(new DomeStudent(strBuffer[0], strBuffer[1],
+				stuList.add(new DomeStudent(strBuffer[0], strBuffer[1],
 						Integer.parseInt(strBuffer[2]), Integer.parseInt(strBuffer[3]),
 						Integer.parseInt(strBuffer[4]), strBuffer[6]));
 			}
 			else {
-				stdList.add(new ForeStudent(strBuffer[0], strBuffer[1],
+				stuList.add(new ForeStudent(strBuffer[0], strBuffer[1],
 						Integer.parseInt(strBuffer[2]), Integer.parseInt(strBuffer[3]),
 						Integer.parseInt(strBuffer[4]), strBuffer[6]));
 			}
@@ -87,7 +106,7 @@ public class ClassInfo {
  */
 abstract class Student {
 	private String name;
-	private String stdID;
+	private String stuID;
 	private int korScore;
 	private int mathScore;
 	private int engScore;
@@ -108,11 +127,11 @@ abstract class Student {
 		this.name = name;
 	}
 	
-	public String getStdID() {
-		return stdID;
+	public String getStuID() {
+		return stuID;
 	}
-	public void setStdID(String stdID) {
-		this.stdID = stdID;
+	public void setStuID(String stuID) {
+		this.stuID = stuID;
 	}
 
 	public int getKorScore() {
@@ -144,10 +163,10 @@ abstract class Student {
  *
  */
 class DomeStudent extends Student {
-	public DomeStudent(String name, String stdID, int korScore, int mathScore,
+	public DomeStudent(String name, String stuID, int korScore, int mathScore,
 												int engScore, String resiID) {
 		super.setName(name);
-		super.setStdID(stdID);
+		super.setStuID(stuID);
 		super.setKorScore(korScore);
 		super.setMathScore(mathScore);
 		super.setEngScore(engScore);
@@ -157,7 +176,7 @@ class DomeStudent extends Student {
 	@Override
 	public String showInfo() {
 		// TODO Auto-generated method stub
-		return ("Name => " + getName() + ", Std ID => " + getStdID() +
+		return ("Name => " + getName() + ", Stu ID => " + getStuID() +
 												", Residence ID => " + resiID + "\r\n");
 	}
 }
@@ -168,10 +187,10 @@ class DomeStudent extends Student {
  *
  */
 class ForeStudent extends Student {
-	public ForeStudent(String name, String stdID, int korScore, int mathScore,
+	public ForeStudent(String name, String stuID, int korScore, int mathScore,
 												int engScore, String foreignID) {
 		super.setName(name);
-		super.setStdID(stdID);
+		super.setStuID(stuID);
 		super.setKorScore(korScore);
 		super.setMathScore(mathScore);
 		super.setEngScore(engScore);
@@ -181,7 +200,7 @@ class ForeStudent extends Student {
 	@Override
 	public String showInfo() {
 		// TODO Auto-generated method stub
-		return ("Name => " + getName() + ", Std ID => " + getStdID() +
+		return ("Name => " + getName() + ", Stu ID => " + getStuID() +
 												", Foreign ID => " + foreignID + "\r\n");
 	}
 }
@@ -191,17 +210,20 @@ class ForeStudent extends Student {
  * @author ehdgur316
  *
  */
-class stdRankManager{
-	public stdRankManager(List<Student> stdList) {
+class StuRankManager{
+	public StuRankManager(List<Student> stdList) {
 		this.stdList = stdList;
 		rankScore();
 	}
 	
 	private List<Student> stdList;
-	private int[] rankArray;
+	private int[][] rankArray; /* index를 사용한 Matching은 굉장히 위험한 발상 -> 식별자를 할당해보자
+							    * rankArray[0]은 stuList의 학번(식별자)을 할당
+							    * rankArray[1]은 rankScore에 의해 순위 할당
+							    */
 	private int[] totalScoreArray;
 	
-	public int[] getRankArray() {
+	public int[][] getRankArray() {
 		return rankArray;
 	}
 	
@@ -209,12 +231,16 @@ class stdRankManager{
 	 * 조건문 반복문 활용 순위 부여 메서드
 	 */
 	private void rankScore() {
-		rankArray = new int[stdList.size()];
+		rankArray = new int[2][stdList.size()];
 		totalScoreArray = new int[stdList.size()];
 		
 		int rank = 1;
 		int mostPosition;
 		int mostScore;
+		
+		for (int i = 0; i< stdList.size() ; i++) {
+			rankArray[0][i] = Integer.parseInt(stdList.get(i).getStuID());
+		}
 		
 		// 총점을 계산하여 총점 배열에 할당(이 메서드 내에서만 사용함. Getter/Setter 메서드 없음)
 		for (int i = 0; i < stdList.size(); i++) {
@@ -241,7 +267,7 @@ class stdRankManager{
 				return;
 			}
 
-			rankArray[mostPosition] = rank++;
+			rankArray[1][mostPosition] = rank++;
 			totalScoreArray[mostPosition] = 0;
 		}
 	}
