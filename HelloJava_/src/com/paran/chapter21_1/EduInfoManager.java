@@ -11,19 +11,19 @@ import java.util.List;
 
 public class EduInfoManager {
 	public static void main(String[] args) throws IOException {
-		SchoolReadWriter eduInfo = new SchoolReadWriter();
+		StudentReadWriter eduInfo = new StudentReadWriter();
 		eduInfo.writeToFile();
 	}
 }
 
-class SchoolReadWriter {
+class StudentReadWriter {
 	List<School> schoolList = new ArrayList<School>();
 	private static String fileDir = "D:\\EMS\\";
 	private static String fileName = "SchoolCollection.txt";
 	private static String[] strBuffer;
 	private static String folderDir;
 	
-	public SchoolReadWriter() throws IOException {
+	public StudentReadWriter() throws IOException {
 		readFromFile();
 	}
 
@@ -36,16 +36,16 @@ class SchoolReadWriter {
 			strBuffer = fileLine.split("\t");
 			switch (Integer.parseInt(strBuffer[0])) {
 				case 1: 
-					initSchool(1, strBuffer[1]);
+					insertSchool(1, strBuffer[1]);
 					break;
 				case 2:
-					initSchool(2, strBuffer[1]);
+					insertSchool(2, strBuffer[1]);
 					break;
 				case 3:
-					initSchool(3, strBuffer[1]);
+					insertSchool(3, strBuffer[1]);
 					break;
 				case 4:
-					initSchool(4, strBuffer[1]);
+					insertSchool(4, strBuffer[1]);
 					break;
 				default:
 					break;
@@ -73,7 +73,7 @@ class SchoolReadWriter {
 		
 	}
 	
-	public void initSchool(int schoolLevel, String schoolName) {
+	public void insertSchool(int schoolLevel, String schoolName) {
 		boolean schoolExist = false;
 		int duplicatedPosition = 0;
 		
@@ -95,7 +95,7 @@ class SchoolReadWriter {
 			schoolList.add(new School(schoolLevel, schoolName));
 		}
 		else {
-			schoolList.get(duplicatedPosition).duplicatedSchool();
+			schoolList.get(duplicatedPosition).isDuplicated();
 		}
 	}
 	
@@ -112,7 +112,7 @@ class SchoolReadWriter {
 	}
 	
 	public static void setFolderDir(String folderDir) {
-		SchoolReadWriter.folderDir = folderDir;
+		StudentReadWriter.folderDir = folderDir;
 	}
 
 	public List<School> getSchoolList() {
@@ -131,34 +131,34 @@ class School {
 		this.schoolLevel = schoolLevel;
 		this.schoolName = schoolName;
 		
-		SchoolReadWriter.setFolderDir(SchoolReadWriter.getFileDir());
+		StudentReadWriter.setFolderDir(StudentReadWriter.getFileDir());
 		switch (schoolLevel) {
 			case 1:
-				SchoolReadWriter.setFolderDir(SchoolReadWriter.getFolderDir() + "Elementary");
+				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderDir() + "Elementary");
 				break;
 			case 2:
-				SchoolReadWriter.setFolderDir(SchoolReadWriter.getFolderDir() + "Middle");
+				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderDir() + "Middle");
 				break;
 			case 3:
-				SchoolReadWriter.setFolderDir(SchoolReadWriter.getFolderDir() + "High");
+				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderDir() + "High");
 				break;
 			case 4:
-				SchoolReadWriter.setFolderDir(SchoolReadWriter.getFolderDir() + "University");
+				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderDir() + "University");
 				break;
 			default:
 				break;
 		}
-		SchoolReadWriter.setFolderDir(SchoolReadWriter.getFolderDir() + "\\" + schoolName);
-		schoolFolderDirs = new File(SchoolReadWriter.getFolderDir());
+		StudentReadWriter.setFolderDir(StudentReadWriter.getFolderDir() + "\\" + schoolName);
+		schoolFolderDirs = new File(StudentReadWriter.getFolderDir());
 		if (!schoolFolderDirs.exists()) schoolFolderDirs.mkdirs();
 		
-		initClass();
+		insertClass();
 	}
-	public void duplicatedSchool() {
-		initClass();
+	public void isDuplicated() {
+		insertClass();
 	}
 	
-	public void initClass() {
+	public void insertClass() {
 		boolean classExist = false;
 		int duplicatedPosition = 0;
 		
@@ -167,8 +167,8 @@ class School {
 			return;
 		}
 		for (int i = 0 ; i < classList.size(); i++) {
-			if (!(classList.get(i).getYears() == Integer.parseInt(SchoolReadWriter.getStrBuffer()[2]))
-					&& !(classList.get(i).getClassNo() == Integer.parseInt(SchoolReadWriter.getStrBuffer()[3]))) {
+			if (!(classList.get(i).getYears() == Integer.parseInt(StudentReadWriter.getStrBuffer()[2]))
+					&& !(classList.get(i).getClassNo() == Integer.parseInt(StudentReadWriter.getStrBuffer()[3]))) {
 				classExist = false;
 			}
 			else {
@@ -181,7 +181,7 @@ class School {
 			classList.add(new ClassInfo());
 		}
 		else {
-			classList.get(duplicatedPosition).duplicatedClass();
+			classList.get(duplicatedPosition).isDuplicated();
 		}
 	}
 
@@ -206,21 +206,21 @@ class ClassInfo {
 	private File classFolderDirs;
 	
 	public ClassInfo() {
-		this.years = Integer.parseInt(SchoolReadWriter.getStrBuffer()[2]);
-		this.classNo = Integer.parseInt(SchoolReadWriter.getStrBuffer()[3]);
+		this.years = Integer.parseInt(StudentReadWriter.getStrBuffer()[2]);
+		this.classNo = Integer.parseInt(StudentReadWriter.getStrBuffer()[3]);
 		
-		classFolderDirs = new File(SchoolReadWriter.getFolderDir() + "\\" + years + "\\" + classNo);
+		classFolderDirs = new File(StudentReadWriter.getFolderDir() + "\\" + years + "\\" + classNo);
 		if (!classFolderDirs.exists()) classFolderDirs.mkdirs();
 		
-		initStudent();
+		insertStudent();
 	}
 
-	public void duplicatedClass(){
-		initStudent();
+	public void isDuplicated(){
+		insertStudent();
 	}
 	
-	public void initStudent() {
-		if (Integer.parseInt(SchoolReadWriter.getStrBuffer()[6]) == 0) {
+	public void insertStudent() {
+		if (Integer.parseInt(StudentReadWriter.getStrBuffer()[6]) == 0) {
 			stuList.add(new DomeStudent());
 		}
 		else {
@@ -252,27 +252,27 @@ abstract class Student implements Comparable<Student>{
 	private List<TermGrade> examResult = new ArrayList<TermGrade>();
 	
 	public abstract String showInfo();
-	public void evaluateTest() {
+	public void evaluateGrade() {
 		int midStart = 0;
 		int finalStart = 0; 
-		for (int i = 8 ; i < SchoolReadWriter.getStrBuffer().length ; i++) {
-			if (SchoolReadWriter.getStrBuffer()[i].equalsIgnoreCase("Mid")) {
+		for (int i = 8 ; i < StudentReadWriter.getStrBuffer().length ; i++) {
+			if (StudentReadWriter.getStrBuffer()[i].equalsIgnoreCase("Mid")) {
 				midStart = i;
 			}
-			else if (SchoolReadWriter.getStrBuffer()[i].equalsIgnoreCase("Final")) {
+			else if (StudentReadWriter.getStrBuffer()[i].equalsIgnoreCase("Final")) {
 				finalStart = i;
 			}
 		}
 		examResult.add(new TermGrade(midStart, finalStart));
-		examResult.add(new TermGrade(finalStart, SchoolReadWriter.getStrBuffer().length));
+		examResult.add(new TermGrade(finalStart, StudentReadWriter.getStrBuffer().length));
 	}
 	@Override
 	public int compareTo(Student stu) {
 		// TODO Auto-generated method stub
-		if (this.getTestResult().get(0).getAvgScore() > stu.getTestResult().get(0).getAvgScore()) {
+		if (this.getTermResult().get(0).getAvgScore() > stu.getTermResult().get(0).getAvgScore()) {
 			return -1;
 		}
-		else if (this.getTestResult().get(0).getAvgScore() == stu.getTestResult().get(0).getAvgScore()) {
+		else if (this.getTermResult().get(0).getAvgScore() == stu.getTermResult().get(0).getAvgScore()) {
 			return 0;
 		}
 		else return 1;
@@ -294,7 +294,7 @@ abstract class Student implements Comparable<Student>{
 		this.stuID = stuID;
 	}
 	
-	public List<TermGrade> getTestResult() {
+	public List<TermGrade> getTermResult() {
 		return examResult;
 	}
 }
@@ -304,11 +304,11 @@ class DomeStudent extends Student {
 	private String resiID;
 	
 	public DomeStudent() {
-		super.setName(SchoolReadWriter.getStrBuffer()[4]);
-		super.setStuID(SchoolReadWriter.getStrBuffer()[5]);
-		this.resiID = SchoolReadWriter.getStrBuffer()[7];
+		super.setName(StudentReadWriter.getStrBuffer()[4]);
+		super.setStuID(StudentReadWriter.getStrBuffer()[5]);
+		this.resiID = StudentReadWriter.getStrBuffer()[7];
 		
-		evaluateTest();
+		evaluateGrade();
 	}
 	
 	@Override
@@ -317,17 +317,17 @@ class DomeStudent extends Student {
 		String studentInfo = "Name : " + getName() + "\tStu ID : " + getStuID() +
 				"\tResidence ID : " + resiID + "\r\n";
 		studentInfo += "Mid Term : \t";
-		for (int i = 0 ; i < super.getTestResult().get(0).getSubjectList().size(); i++) {
-			studentInfo += super.getTestResult().get(0).getSubjectList().get(i).getSubjectName()
-					+ " " + super.getTestResult().get(0).getSubjectList().get(i).getTestScore() + " ";
+		for (int i = 0 ; i < super.getTermResult().get(0).getSubjectList().size(); i++) {
+			studentInfo += super.getTermResult().get(0).getSubjectList().get(i).getSubjectName()
+					+ " " + super.getTermResult().get(0).getSubjectList().get(i).getSujectScore() + " ";
 		}
-		studentInfo += "\tAverage Score : " + super.getTestResult().get(0).getAvgScore()
+		studentInfo += "\tAverage Score : " + super.getTermResult().get(0).getAvgScore()
 				+ "\r\nFinal Term : \t";
-		for (int i = 0 ; i < super.getTestResult().get(1).getSubjectList().size(); i++) {
-			studentInfo += super.getTestResult().get(1).getSubjectList().get(i).getSubjectName()
-					+ " " + super.getTestResult().get(1).getSubjectList().get(i).getTestScore() + " ";
+		for (int i = 0 ; i < super.getTermResult().get(1).getSubjectList().size(); i++) {
+			studentInfo += super.getTermResult().get(1).getSubjectList().get(i).getSubjectName()
+					+ " " + super.getTermResult().get(1).getSubjectList().get(i).getSujectScore() + " ";
 		}
-		studentInfo += "\tAverage Score : " + super.getTestResult().get(1).getAvgScore() + "\r\n";
+		studentInfo += "\tAverage Score : " + super.getTermResult().get(1).getAvgScore() + "\r\n";
 		return studentInfo;
 	}	
 }
@@ -336,11 +336,11 @@ class ForeStudent extends Student {
 	private String foreignID;
 	
 	public ForeStudent() {
-		super.setName(SchoolReadWriter.getStrBuffer()[4]);
-		super.setStuID(SchoolReadWriter.getStrBuffer()[5]);
-		this.foreignID = SchoolReadWriter.getStrBuffer()[7];
+		super.setName(StudentReadWriter.getStrBuffer()[4]);
+		super.setStuID(StudentReadWriter.getStrBuffer()[5]);
+		this.foreignID = StudentReadWriter.getStrBuffer()[7];
 		
-		evaluateTest();
+		evaluateGrade();
 	}
 	
 	@Override
@@ -349,17 +349,17 @@ class ForeStudent extends Student {
 		String studentInfo = "Name : " + getName() + "\tStu ID : " + getStuID() +
 				"\tForeign ID : " + foreignID + "\r\n";
 		studentInfo += "Mid Term : \t";
-		for (int i = 0 ; i < super.getTestResult().get(0).getSubjectList().size(); i++) {
-			studentInfo += super.getTestResult().get(0).getSubjectList().get(i).getSubjectName()
-					+ " " + super.getTestResult().get(0).getSubjectList().get(i).getTestScore() + " ";
+		for (int i = 0 ; i < super.getTermResult().get(0).getSubjectList().size(); i++) {
+			studentInfo += super.getTermResult().get(0).getSubjectList().get(i).getSubjectName()
+					+ " " + super.getTermResult().get(0).getSubjectList().get(i).getSujectScore() + " ";
 		}
-		studentInfo += "\tAverage Score : " + super.getTestResult().get(0).getAvgScore()
+		studentInfo += "\tAverage Score : " + super.getTermResult().get(0).getAvgScore()
 				+ "\r\nFinal Term : \t";
-		for (int i = 0 ; i < super.getTestResult().get(1).getSubjectList().size(); i++) {
-			studentInfo += super.getTestResult().get(1).getSubjectList().get(i).getSubjectName()
-					+ " " + super.getTestResult().get(1).getSubjectList().get(i).getTestScore() + " ";
+		for (int i = 0 ; i < super.getTermResult().get(1).getSubjectList().size(); i++) {
+			studentInfo += super.getTermResult().get(1).getSubjectList().get(i).getSubjectName()
+					+ " " + super.getTermResult().get(1).getSubjectList().get(i).getSujectScore() + " ";
 		}
-		studentInfo += "\tAverage Score : " + super.getTestResult().get(1).getAvgScore() + "\r\n";
+		studentInfo += "\tAverage Score : " + super.getTermResult().get(1).getAvgScore() + "\r\n";
 		return studentInfo;
 	}	
 }
@@ -369,18 +369,18 @@ class TermGrade {
 	private List<Subject> subjectList = new ArrayList<Subject>();
 	
 	public TermGrade(int frontPoint, int endPoint) {
-		inputTermResult(frontPoint, endPoint);
+		insertTermResult(frontPoint, endPoint);
 		
 		for (Subject subj : subjectList) {
-			avgScore += subj.getTestScore();
+			avgScore += subj.getSujectScore();
 		}
 		
 		avgScore /= subjectList.size();
 	}
 	
-	public void inputTermResult(int frontPoint, int endPoint) {
+	public void insertTermResult(int frontPoint, int endPoint) {
 		for (int i = frontPoint + 1 ; i < endPoint ; i += 2) {
-			subjectList.add(new Subject(SchoolReadWriter.getStrBuffer()[i], Integer.parseInt(SchoolReadWriter.getStrBuffer()[i+1])));
+			subjectList.add(new Subject(StudentReadWriter.getStrBuffer()[i], Integer.parseInt(StudentReadWriter.getStrBuffer()[i+1])));
 		}
 	}
 
@@ -396,17 +396,17 @@ class TermGrade {
 
 class Subject {
 	private String subjectName;
-	private int testScore;
+	private int subjectScore;
 	
 	public Subject(String subjectName, int testScore) {
 		this.subjectName = subjectName;
-		this.testScore = testScore;
+		this.subjectScore = testScore;
 	}
 	public String getSubjectName() {
 		return subjectName;
 	}
-	public int getTestScore() {
-		return testScore;
+	public int getSujectScore() {
+		return subjectScore;
 	}
 }
 
@@ -414,7 +414,7 @@ class GradeRank {
 	void gradeClassRank(List<Student> stuList) {
 
 	}
-	void gradeSchoolRank(Student stu) {
+	void gradeSchoolRank(List<Student> stuList) {
 		
 	}
 }
