@@ -102,10 +102,6 @@ class SchoolReadWriter {
 	public static String getFileDir() {
 		return fileDir;
 	}
-	
-	public static String getFileName() {
-		return fileName;
-	}
 
 	public static String[] getStrBuffer() {
 		return strBuffer;
@@ -300,9 +296,6 @@ abstract class Student implements Comparable<Student>{
 	
 	public List<TermGrade> getTestResult() {
 		return examResult;
-	}
-	public void setTestResult(List<TermGrade> examResult) {
-		this.examResult = examResult;
 	}
 }
 
