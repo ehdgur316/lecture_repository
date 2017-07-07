@@ -7,21 +7,29 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class EduInfoManager {
 	public static void main(String[] args) throws IOException {
 		StudentReadWriter eduInfo = new StudentReadWriter();
+		
+		ClassInfoSort.sortByYearsNo(eduInfo.getSchoolList());
+		
+		GradeRank.gradeRank(false, eduInfo.getSchoolList());
+		
 		eduInfo.writeToFile();
 	}
 }
 
+
 class StudentReadWriter {
-	List<School> schoolList = new ArrayList<School>();
-	private static String fileDir = "D:\\EMS\\";
+	private List<School> schoolList = new ArrayList<School>();
+	private static String filePath = "D:\\EIM\\";
 	private static String fileName = "SchoolCollection.txt";
 	private static String[] strBuffer;
-	private static String folderDir;
+	private static String folderPath;
 	
 	public StudentReadWriter() throws IOException {
 		readFromFile();
@@ -29,7 +37,7 @@ class StudentReadWriter {
 
 	public void readFromFile() throws IOException {
 		BufferedReader schoolFile =
-				new BufferedReader(new FileReader(fileDir + fileName));
+				new BufferedReader(new FileReader(filePath + fileName));
 		while(true) {
 			String fileLine = schoolFile.readLine();
 			if (fileLine == null) break;
@@ -61,7 +69,7 @@ class StudentReadWriter {
 		for (int i = 0 ; i < schoolList.size(); i++) {
 			for (int j = 0 ; j < schoolList.get(i).getClassList().size(); j++) {
 				outputFile = new BufferedWriter
-						(new FileWriter(schoolList.get(i).getClassList().get(j).getClassFolderDirs().getPath() + "\\ClassInfo.txt"));
+						(new FileWriter(schoolList.get(i).getClassList().get(j).getClassFolderPath().getPath() + "\\ClassInfo.txt"));
 				outputString = "";
 				for (int k = 0 ; k < schoolList.get(i).getClassList().get(j).getStuList().size(); k++) {
 					outputString += schoolList.get(i).getClassList().get(j).getStuList().get(k).showInfo();
@@ -69,6 +77,19 @@ class StudentReadWriter {
 				outputFile.write(outputString);
 				outputFile.close();
 			}
+		}
+		for (int i = 0 ; i < schoolList.size(); i++) {
+				outputFile = new BufferedWriter
+						(new FileWriter(schoolList.get(i).getSchoolFolderPath().getPath() + "\\SchoolInfo.txt"));
+				outputString = "";
+				for (int j = 0 ; j < schoolList.get(i).getClassList().size(); j++) {
+					outputString += schoolList.get(i).getClassList().get(j).getYears() + " - " + schoolList.get(i).getClassList().get(j).getClassNo() + "\r\n";
+					for (int k = 0 ; k < schoolList.get(i).getClassList().get(j).getStuList().size(); k++) {
+						outputString += schoolList.get(i).getClassList().get(j).getStuList().get(k).showInfo();
+					}
+				}
+				outputFile.write(outputString);
+				outputFile.close();
 		}
 		
 	}
@@ -82,7 +103,8 @@ class StudentReadWriter {
 			return;
 		}
 		for (int i = 0 ; i < schoolList.size(); i++) {
-			if (!(schoolList.get(i).getSchoolName().equals(schoolName)) && !(schoolList.get(i).getSchoolLevel() == schoolLevel)) {
+			if (!(schoolList.get(i).getSchoolName().equals(schoolName)) 
+					&& !(schoolList.get(i).getSchoolLevel() == schoolLevel)) {
 				schoolExist = false;
 			}
 			else {
@@ -99,20 +121,20 @@ class StudentReadWriter {
 		}
 	}
 	
-	public static String getFileDir() {
-		return fileDir;
+	public static String getFilePath() {
+		return filePath;
 	}
 
 	public static String[] getStrBuffer() {
 		return strBuffer;
 	}
 
-	public static String getFolderDir() {
-		return folderDir;
+	public static String getFolderPath() {
+		return folderPath;
 	}
 	
-	public static void setFolderDir(String folderDir) {
-		StudentReadWriter.folderDir = folderDir;
+	public static void setFolderDir(String folderPath) {
+		StudentReadWriter.folderPath = folderPath;
 	}
 
 	public List<School> getSchoolList() {
@@ -125,32 +147,32 @@ class School {
 	private String schoolName;
 	private int schoolLevel;
 	private List<ClassInfo> classList = new ArrayList<ClassInfo>();
-	private File schoolFolderDirs;
+	private File schoolFolderPath;
 	
 	public School(int schoolLevel, String schoolName) {
 		this.schoolLevel = schoolLevel;
 		this.schoolName = schoolName;
 		
-		StudentReadWriter.setFolderDir(StudentReadWriter.getFileDir());
+		StudentReadWriter.setFolderDir(StudentReadWriter.getFilePath());
 		switch (schoolLevel) {
 			case 1:
-				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderDir() + "Elementary");
+				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderPath() + "Elementary");
 				break;
 			case 2:
-				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderDir() + "Middle");
+				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderPath() + "Middle");
 				break;
 			case 3:
-				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderDir() + "High");
+				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderPath() + "High");
 				break;
 			case 4:
-				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderDir() + "University");
+				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderPath() + "University");
 				break;
 			default:
 				break;
 		}
-		StudentReadWriter.setFolderDir(StudentReadWriter.getFolderDir() + "\\" + schoolName);
-		schoolFolderDirs = new File(StudentReadWriter.getFolderDir());
-		if (!schoolFolderDirs.exists()) schoolFolderDirs.mkdirs();
+		StudentReadWriter.setFolderDir(StudentReadWriter.getFolderPath() + "\\" + schoolName);
+		schoolFolderPath = new File(StudentReadWriter.getFolderPath());
+		if (!schoolFolderPath.exists()) schoolFolderPath.mkdirs();
 		
 		insertClass();
 	}
@@ -167,14 +189,14 @@ class School {
 			return;
 		}
 		for (int i = 0 ; i < classList.size(); i++) {
-			if (!(classList.get(i).getYears() == Integer.parseInt(StudentReadWriter.getStrBuffer()[2]))
-					&& !(classList.get(i).getClassNo() == Integer.parseInt(StudentReadWriter.getStrBuffer()[3]))) {
-				classExist = false;
-			}
-			else {
+			if ((classList.get(i).getYears() == Integer.parseInt(StudentReadWriter.getStrBuffer()[2]))
+					&& (classList.get(i).getClassNo() == Integer.parseInt(StudentReadWriter.getStrBuffer()[3]))) {
 				classExist = true;
 				duplicatedPosition = i;
 				break;
+			}
+			else {
+				classExist = false;
 			}
 		}
 		if (classExist == false) {
@@ -196,21 +218,23 @@ class School {
 	public int getSchoolLevel() {
 		return schoolLevel;
 	}
-	
+	public File getSchoolFolderPath() {
+		return schoolFolderPath;
+	}
 }
 
 class ClassInfo {
 	private int years;
 	private int classNo;
 	private List<Student> stuList = new ArrayList<Student>();
-	private File classFolderDirs;
+	private File classFolderPath;
 	
 	public ClassInfo() {
 		this.years = Integer.parseInt(StudentReadWriter.getStrBuffer()[2]);
 		this.classNo = Integer.parseInt(StudentReadWriter.getStrBuffer()[3]);
 		
-		classFolderDirs = new File(StudentReadWriter.getFolderDir() + "\\" + years + "\\" + classNo);
-		if (!classFolderDirs.exists()) classFolderDirs.mkdirs();
+		classFolderPath = new File(StudentReadWriter.getFolderPath() + "\\" + years + "\\" + classNo);
+		if (!classFolderPath.exists()) classFolderPath.mkdirs();
 		
 		insertStudent();
 	}
@@ -228,8 +252,8 @@ class ClassInfo {
 		}
 	}
 	
-	public File getClassFolderDirs() {
-		return classFolderDirs;
+	public File getClassFolderPath() {
+		return classFolderPath;
 	}
 
 	public List<Student> getStuList() {
@@ -246,7 +270,7 @@ class ClassInfo {
 	
 }
 
-abstract class Student implements Comparable<Student>{
+abstract class Student{
 	private String name;
 	private String stuID;
 	private List<TermGrade> examResult = new ArrayList<TermGrade>();
@@ -263,19 +287,29 @@ abstract class Student implements Comparable<Student>{
 				finalStart = i;
 			}
 		}
-		examResult.add(new TermGrade(midStart, finalStart));
-		examResult.add(new TermGrade(finalStart, StudentReadWriter.getStrBuffer().length));
+		examResult.add(new TermGrade(false, midStart, finalStart));
+		examResult.add(new TermGrade(true, finalStart, StudentReadWriter.getStrBuffer().length));
 	}
-	@Override
-	public int compareTo(Student stu) {
-		// TODO Auto-generated method stub
-		if (this.getTermResult().get(0).getAvgScore() > stu.getTermResult().get(0).getAvgScore()) {
-			return -1;
+	public String makeScoreString(List<TermGrade> examResult) {
+		String studentInfo = "";
+		for (TermGrade term : examResult) {
+			if (!term.isFinalTerm()) {
+				studentInfo += "Mid Term : \t";
+				for (int i = 0; i < examResult.get(0).getSubjectList().size(); i++) {
+					studentInfo += examResult.get(0).getSubjectList().get(i).getSubjectName() + " "
+							+ examResult.get(0).getSubjectList().get(i).getSujectScore() + " ";
+				}
+				studentInfo += "\tAverage Score : " + examResult.get(0).getAvgScore()
+						+ "\r\nFinal Term : \t";
+			} else {
+				for (int i = 0; i < examResult.get(1).getSubjectList().size(); i++) {
+					studentInfo += examResult.get(1).getSubjectList().get(i).getSubjectName() + " "
+							+ examResult.get(1).getSubjectList().get(i).getSujectScore() + " ";
+				}
+				studentInfo += "\tAverage Score : " + examResult.get(1).getAvgScore() + "\r\n";
+			}
 		}
-		else if (this.getTermResult().get(0).getAvgScore() == stu.getTermResult().get(0).getAvgScore()) {
-			return 0;
-		}
-		else return 1;
+		return studentInfo;
 	}
 	
 	public String getName() {
@@ -294,7 +328,7 @@ abstract class Student implements Comparable<Student>{
 		this.stuID = stuID;
 	}
 	
-	public List<TermGrade> getTermResult() {
+	public List<TermGrade> getExamResult() {
 		return examResult;
 	}
 }
@@ -316,18 +350,7 @@ class DomeStudent extends Student {
 		// TODO Auto-generated method stub
 		String studentInfo = "Name : " + getName() + "\tStu ID : " + getStuID() +
 				"\tResidence ID : " + resiID + "\r\n";
-		studentInfo += "Mid Term : \t";
-		for (int i = 0 ; i < super.getTermResult().get(0).getSubjectList().size(); i++) {
-			studentInfo += super.getTermResult().get(0).getSubjectList().get(i).getSubjectName()
-					+ " " + super.getTermResult().get(0).getSubjectList().get(i).getSujectScore() + " ";
-		}
-		studentInfo += "\tAverage Score : " + super.getTermResult().get(0).getAvgScore()
-				+ "\r\nFinal Term : \t";
-		for (int i = 0 ; i < super.getTermResult().get(1).getSubjectList().size(); i++) {
-			studentInfo += super.getTermResult().get(1).getSubjectList().get(i).getSubjectName()
-					+ " " + super.getTermResult().get(1).getSubjectList().get(i).getSujectScore() + " ";
-		}
-		studentInfo += "\tAverage Score : " + super.getTermResult().get(1).getAvgScore() + "\r\n";
+		studentInfo += makeScoreString(super.getExamResult());
 		return studentInfo;
 	}	
 }
@@ -348,27 +371,18 @@ class ForeStudent extends Student {
 		// TODO Auto-generated method stub
 		String studentInfo = "Name : " + getName() + "\tStu ID : " + getStuID() +
 				"\tForeign ID : " + foreignID + "\r\n";
-		studentInfo += "Mid Term : \t";
-		for (int i = 0 ; i < super.getTermResult().get(0).getSubjectList().size(); i++) {
-			studentInfo += super.getTermResult().get(0).getSubjectList().get(i).getSubjectName()
-					+ " " + super.getTermResult().get(0).getSubjectList().get(i).getSujectScore() + " ";
-		}
-		studentInfo += "\tAverage Score : " + super.getTermResult().get(0).getAvgScore()
-				+ "\r\nFinal Term : \t";
-		for (int i = 0 ; i < super.getTermResult().get(1).getSubjectList().size(); i++) {
-			studentInfo += super.getTermResult().get(1).getSubjectList().get(i).getSubjectName()
-					+ " " + super.getTermResult().get(1).getSubjectList().get(i).getSujectScore() + " ";
-		}
-		studentInfo += "\tAverage Score : " + super.getTermResult().get(1).getAvgScore() + "\r\n";
+		studentInfo += makeScoreString(super.getExamResult());
 		return studentInfo;
 	}	
 }
 
 class TermGrade {
 	private double avgScore;
+	private boolean finalTerm;
 	private List<Subject> subjectList = new ArrayList<Subject>();
 	
-	public TermGrade(int frontPoint, int endPoint) {
+	public TermGrade(boolean finalTerm, int frontPoint, int endPoint) {
+		this.finalTerm = finalTerm;
 		insertTermResult(frontPoint, endPoint);
 		
 		for (Subject subj : subjectList) {
@@ -391,16 +405,19 @@ class TermGrade {
 	public double getAvgScore() {
 		return avgScore;
 	}
-	
+
+	public boolean isFinalTerm() {
+		return finalTerm;
+	}
 }
 
 class Subject {
 	private String subjectName;
 	private int subjectScore;
 	
-	public Subject(String subjectName, int testScore) {
+	public Subject(String subjectName, int subjectScore) {
 		this.subjectName = subjectName;
-		this.subjectScore = testScore;
+		this.subjectScore = subjectScore;
 	}
 	public String getSubjectName() {
 		return subjectName;
@@ -410,11 +427,79 @@ class Subject {
 	}
 }
 
-class GradeRank {
-	void gradeClassRank(List<Student> stuList) {
-
+class ClassInfoSort {
+	public static void sortByYearsNo(List<School> schoolList) {
+		for (int i = 0 ; i < schoolList.size(); i++) {
+			Collections.sort(schoolList.get(i).getClassList(), new Comparator<ClassInfo>() {
+				@Override
+				public int compare(ClassInfo classInfo1, ClassInfo classInfo2) {
+					// TODO Auto-generated method stub
+					if (classInfo1.getYears() > classInfo2.getYears()) {
+						return 1;
+					}
+					else if (classInfo1.getYears() < classInfo2.getYears()) {
+						return -1;
+					}
+					else {
+						return 0;
+					}
+				}
+			});
+			for (int j = 0; j < schoolList.size(); j++) {
+				Collections.sort(schoolList.get(j).getClassList(), new Comparator<ClassInfo>() {
+					@Override
+					public int compare(ClassInfo classInfo1, ClassInfo classInfo2) {
+						// TODO Auto-generated method stub
+						if (classInfo1.getClassNo() > classInfo2.getClassNo()) {
+							return 1;
+						}
+						else if (classInfo1.getClassNo() < classInfo2.getClassNo()) {
+							return -1;
+						}
+						else {
+							return 0;
+						}
+					}
+					
+				});
+			}
+		}
 	}
-	void gradeSchoolRank(List<Student> stuList) {
-		
+}
+
+class GradeRank  {
+	static void gradeRank(boolean finalTerm, List<School> schoolList) {
+		for (int i = 0 ; i < schoolList.size(); i++) {
+			for (int j = 0 ; j < schoolList.get(i).getClassList().size(); j++) {
+				Collections.sort(schoolList.get(i).getClassList().get(j).getStuList(), new Comparator<Student>() {
+					@Override
+					public int compare(Student stu1, Student stu2) {
+						// TODO Auto-generated method stub
+						for (TermGrade term : stu1.getExamResult()) {
+							if (!term.isFinalTerm()) {
+								if (stu1.getExamResult().get(0).getAvgScore() > stu2.getExamResult().get(0)
+										.getAvgScore())
+									return -1;
+								else if (stu1.getExamResult().get(0).getAvgScore() < stu2.getExamResult().get(0)
+										.getAvgScore())
+									return 1;
+								else
+									return 0;
+							} else {
+								if (stu1.getExamResult().get(1).getAvgScore() > stu2.getExamResult().get(1)
+										.getAvgScore())
+									return -1;
+								else if (stu1.getExamResult().get(1).getAvgScore() < stu2.getExamResult().get(1)
+										.getAvgScore())
+									return 1;
+								else
+									return 0;
+							}
+						}
+						return 0;
+					}
+				});
+			}
+		}
 	}
 }
