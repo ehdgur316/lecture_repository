@@ -30,7 +30,6 @@ class BankAccount {
 	public BankAccount(String ownerName, String ownerID) {
 		this.owner = new AccountHolder(ownerName, ownerID);
 		this.balance = 0;
-		
 	}
 	
 	public void ownerAuthentication(String accessName, String accessID) throws AccountAccessDenialException {
@@ -60,9 +59,9 @@ class AccountHolder {
 	public AccountHolder(String ownerName, String ownerID) {
 		this.ownerName = ownerName;
 		this.ownerID = ownerID;
-		this.accountNo = Integer.toString((int)(Math.random() * 1000))
-				+ "-" + Integer.toString((int)(Math.random() * 1000))
-				+ "-" + Integer.toString((int)(Math.random() * 1000000));
+		this.accountNo = String.format("%04d", (int)(Math.random() * 1000))
+				+ "-" + String.format("%03d", (int)(Math.random() * 1000))
+				+ "-" + String.format("%06d", (int)(Math.random() * 1000000));
 	}
 }
 
