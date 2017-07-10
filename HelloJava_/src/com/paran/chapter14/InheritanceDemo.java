@@ -1,5 +1,24 @@
 package com.paran.chapter14;
 
+/*
+ * 상속과 class member variable/method
+ *  상속의 대상은 instance member variable/method
+ *  class member와는 다른 개념임을 인지할 것
+ *  
+ * 상속받은 자식 class에서 할 수 있는 것
+ *  1. 상속받은 field는 즉시 호출 가능
+ *  2. 부모 class에서 할당되지 않은 field라도 새로 할당해서 사용할 수 있음
+ *  3. 상속받은 method는 즉시 사용 가능
+ *  4. 부모 class가 갖고있는 field를 자식 class에서 동일한 식별자로 재정의하여 사용할 수 있음
+ *    (단, 부모 class의 field는 숨겨짐(hiding)) - 권하지 않는 사용법
+ *  5. 부모 class가 갖고있는 method를 자식 class에서 동일한 signature로 재정의하여 사용할 수 있음
+ *    (method signature - 메서드명, parameter 타입과 종류 / method overriding)
+ *  6. 부모 class가 갖고있는 static method를 자식 class에서 동일한 signature로 재정의하여 사용할 수 있음
+ *    (단, 부모 class의 static method는 숨겨짐(hiding) / method overriding이 아님)
+ *  7. 부모 class가 갖고있지 않은 새로운 메서드를 자식 class에서 정의할 수 있음
+ *  8. 자식 class의 생성자는 부모 class의 생성자를 반드시 먼저 호출해야 함
+ *    (단, 기본 생성자 함수의 경우 호출하지 않아도 됨)
+ */
 public class InheritanceDemo {
 	public static void main(String[] args) {
 		B instB = new B(10); // instB의 Type은 class B reference type
