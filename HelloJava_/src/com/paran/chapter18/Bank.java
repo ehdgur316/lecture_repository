@@ -1,5 +1,10 @@
 package com.paran.chapter18;
 
+/*
+ * 수정할 내용
+ *  1. BankAccount가 AccountHolder의 변수를 받아 AccountHolder의 인스턴스를 생성하는 방식 개선
+ *  2. System.out.println으로 기술한 정보 출력을 특정 메서드로 묶어서 표현하는 방식 개선
+ */
 public class Bank {
 	public static void main(String[] args) {
 		BankAccount guestAAA = new BankAccount("AAA", "999999");
@@ -10,9 +15,14 @@ public class Bank {
 			guestAAA.deposite(10000000L);
 			
 			System.out.println("잔액 : " + guestAAA.withdraw(2500000L) + "원");
-		} catch(BalanceNotEnoughException e) {
-			e.printStackTrace();
-		} catch(AccountAccessDenialException e) {
+//		} catch(BalanceNotEnoughException e) {
+//			e.printStackTrace();
+//		} catch(AccountAccessDenialException e) {
+//			e.printStackTrace();
+			/*
+			 * JRE 1.7.0 이상에서 사용 가능한 단일 catch 중복 예외 처리
+			 */
+		} catch(BalanceNotEnoughException|AccountAccessDenialException e) {
 			e.printStackTrace();
 		} finally {
 			System.out.println("은행거래 종료");
