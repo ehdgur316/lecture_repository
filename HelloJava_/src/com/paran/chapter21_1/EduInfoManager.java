@@ -12,14 +12,18 @@ import java.util.Comparator;
 import java.util.List;
 
 public class EduInfoManager {
-	public static void main(String[] args) throws IOException {
-		StudentReadWriter eduInfo = new StudentReadWriter();
-		
-		ClassInfoSort.sortByYearsNo(eduInfo.getSchoolList());
-		
-		GradeRank.gradeRank(false, eduInfo.getSchoolList());
-		
-		eduInfo.writeToFile();
+	public static void main(String[] args){
+		try {
+			StudentReadWriter eduInfo = new StudentReadWriter();
+
+			ClassInfoSort.sortByYearsNo(eduInfo.getSchoolList());
+
+			GradeRank.gradeRank(false, eduInfo.getSchoolList());
+
+			eduInfo.writeToFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
 
@@ -103,14 +107,14 @@ class StudentReadWriter {
 			return;
 		}
 		for (int i = 0 ; i < schoolList.size(); i++) {
-			if (!(schoolList.get(i).getSchoolName().equals(schoolName)) 
-					&& !(schoolList.get(i).getSchoolLevel() == schoolLevel)) {
-				schoolExist = false;
-			}
-			else {
+			if ((schoolList.get(i).getSchoolName().equals(schoolName)) 
+					&& (schoolList.get(i).getSchoolLevel() == schoolLevel)) {
 				schoolExist = true;
 				duplicatedPosition = i;
 				break;
+			}
+			else {
+				schoolExist = false;
 			}
 		}
 		if (schoolExist == false) {
@@ -133,7 +137,7 @@ class StudentReadWriter {
 		return folderPath;
 	}
 	
-	public static void setFolderDir(String folderPath) {
+	public static void setFolderPath(String folderPath) {
 		StudentReadWriter.folderPath = folderPath;
 	}
 
@@ -153,24 +157,24 @@ class School {
 		this.schoolLevel = schoolLevel;
 		this.schoolName = schoolName;
 		
-		StudentReadWriter.setFolderDir(StudentReadWriter.getFilePath());
+		StudentReadWriter.setFolderPath(StudentReadWriter.getFilePath());
 		switch (schoolLevel) {
 			case 1:
-				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderPath() + "Elementary");
+				StudentReadWriter.setFolderPath(StudentReadWriter.getFolderPath() + "Elementary");
 				break;
 			case 2:
-				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderPath() + "Middle");
+				StudentReadWriter.setFolderPath(StudentReadWriter.getFolderPath() + "Middle");
 				break;
 			case 3:
-				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderPath() + "High");
+				StudentReadWriter.setFolderPath(StudentReadWriter.getFolderPath() + "High");
 				break;
 			case 4:
-				StudentReadWriter.setFolderDir(StudentReadWriter.getFolderPath() + "University");
+				StudentReadWriter.setFolderPath(StudentReadWriter.getFolderPath() + "University");
 				break;
 			default:
 				break;
 		}
-		StudentReadWriter.setFolderDir(StudentReadWriter.getFolderPath() + "\\" + schoolName);
+		StudentReadWriter.setFolderPath(StudentReadWriter.getFolderPath() + "\\" + schoolName);
 		schoolFolderPath = new File(StudentReadWriter.getFolderPath());
 		if (!schoolFolderPath.exists()) schoolFolderPath.mkdirs();
 		
@@ -434,10 +438,10 @@ class ClassInfoSort {
 				@Override
 				public int compare(ClassInfo classInfo1, ClassInfo classInfo2) {
 					// TODO Auto-generated method stub
-					if (classInfo1.getYears() > classInfo2.getYears()) {
+					if (classInfo1.getClassNo() > classInfo2.getClassNo()) {
 						return 1;
 					}
-					else if (classInfo1.getYears() < classInfo2.getYears()) {
+					else if (classInfo1.getClassNo() < classInfo2.getClassNo()) {
 						return -1;
 					}
 					else {
@@ -450,10 +454,10 @@ class ClassInfoSort {
 					@Override
 					public int compare(ClassInfo classInfo1, ClassInfo classInfo2) {
 						// TODO Auto-generated method stub
-						if (classInfo1.getClassNo() > classInfo2.getClassNo()) {
+						if (classInfo1.getYears() > classInfo2.getYears()) {
 							return 1;
 						}
-						else if (classInfo1.getClassNo() < classInfo2.getClassNo()) {
+						else if (classInfo1.getYears() < classInfo2.getYears()) {
 							return -1;
 						}
 						else {
