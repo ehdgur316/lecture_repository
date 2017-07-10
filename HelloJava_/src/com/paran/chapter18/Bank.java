@@ -9,11 +9,9 @@ public class Bank {
 			
 			guestAAA.deposite(10000000L);
 			
-			try {
-				System.out.println("잔액 : " + guestAAA.withdraw(2500000L) + "원");
-			} catch(BalanceNotEnoughException e) {
-				e.printStackTrace();
-			}
+			System.out.println("잔액 : " + guestAAA.withdraw(2500000L) + "원");
+		} catch(BalanceNotEnoughException e) {
+			e.printStackTrace();
 		} catch(AccountAccessDenialException e) {
 			e.printStackTrace();
 		} finally {
