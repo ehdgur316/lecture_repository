@@ -1,0 +1,3 @@
+Collection Framework(JAVA 내부적으로 제공하는 자료구조)
+ 한 번 읽어보고 넘어갈 것
+ Thread에서 자료구조를 활용할 경우 Thread-Safe 여부를 확인하고 사용할 것
