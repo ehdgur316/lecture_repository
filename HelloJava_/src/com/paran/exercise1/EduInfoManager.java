@@ -1,4 +1,4 @@
-package com.paran.chapter21_1;
+package com.paran.exercise1;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
