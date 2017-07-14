@@ -33,7 +33,6 @@ class StudentReadWriter {
 	private static String filePath = "D:\\EIM\\";
 	private static String fileName = "SchoolCollection.txt";
 	private static String[] strBuffer;
-	private static String folderPath;
 	
 	public StudentReadWriter() throws IOException {
 		readFromFile();
@@ -133,14 +132,6 @@ class StudentReadWriter {
 		return strBuffer;
 	}
 
-	public static String getFolderPath() {
-		return folderPath;
-	}
-	
-	public static void setFolderPath(String folderPath) {
-		StudentReadWriter.folderPath = folderPath;
-	}
-
 	public List<School> getSchoolList() {
 		return schoolList;
 	}
@@ -156,31 +147,46 @@ class School {
 	public School(int schoolLevel, String schoolName) {
 		this.schoolLevel = schoolLevel;
 		this.schoolName = schoolName;
-		
-		StudentReadWriter.setFolderPath(StudentReadWriter.getFilePath());
+
 		switch (schoolLevel) {
 			case 1:
-				StudentReadWriter.setFolderPath(StudentReadWriter.getFolderPath() + "Elementary");
+				schoolFolderPath = new File(StudentReadWriter.getFilePath() + "\\Elementary\\" + schoolName);
 				break;
 			case 2:
-				StudentReadWriter.setFolderPath(StudentReadWriter.getFolderPath() + "Middle");
+				schoolFolderPath = new File(StudentReadWriter.getFilePath() + "\\Middle\\" + schoolName);
 				break;
 			case 3:
-				StudentReadWriter.setFolderPath(StudentReadWriter.getFolderPath() + "High");
+				schoolFolderPath = new File(StudentReadWriter.getFilePath() + "\\High\\" + schoolName);
 				break;
 			case 4:
-				StudentReadWriter.setFolderPath(StudentReadWriter.getFolderPath() + "University");
+				schoolFolderPath = new File(StudentReadWriter.getFilePath() + "\\University\\" + schoolName);
 				break;
 			default:
 				break;
 		}
-		StudentReadWriter.setFolderPath(StudentReadWriter.getFolderPath() + "\\" + schoolName);
-		schoolFolderPath = new File(StudentReadWriter.getFolderPath());
 		if (!schoolFolderPath.exists()) schoolFolderPath.mkdirs();
 		
 		insertClass();
 	}
 	public void isDuplicated() {
+
+		switch (schoolLevel) {
+			case 1:
+				schoolFolderPath = new File(StudentReadWriter.getFilePath() + "\\Elementary\\" + schoolName);
+				break;
+			case 2:
+				schoolFolderPath = new File(StudentReadWriter.getFilePath() + "\\Middle\\" + schoolName);
+				break;
+			case 3:
+				schoolFolderPath = new File(StudentReadWriter.getFilePath() + "\\High\\" + schoolName);
+				break;
+			case 4:
+				schoolFolderPath = new File(StudentReadWriter.getFilePath() + "\\University\\" + schoolName);
+				break;
+			default:
+				break;
+		}
+		
 		insertClass();
 	}
 	
@@ -189,7 +195,7 @@ class School {
 		int duplicatedPosition = 0;
 		
 		if (classList.size() == 0) {
-			classList.add(new ClassInfo());
+			classList.add(new ClassInfo(schoolFolderPath));
 			return;
 		}
 		for (int i = 0 ; i < classList.size(); i++) {
@@ -204,7 +210,7 @@ class School {
 			}
 		}
 		if (classExist == false) {
-			classList.add(new ClassInfo());
+			classList.add(new ClassInfo(schoolFolderPath));
 		}
 		else {
 			classList.get(duplicatedPosition).isDuplicated();
@@ -233,11 +239,11 @@ class ClassInfo {
 	private List<Student> stuList = new ArrayList<Student>();
 	private File classFolderPath;
 	
-	public ClassInfo() {
+	public ClassInfo(File schoolFolderPath) {
 		this.years = Integer.parseInt(StudentReadWriter.getStrBuffer()[2]);
 		this.classNo = Integer.parseInt(StudentReadWriter.getStrBuffer()[3]);
 		
-		classFolderPath = new File(StudentReadWriter.getFolderPath() + "\\" + years + "\\" + classNo);
+		classFolderPath = new File(schoolFolderPath + "\\" + years + "\\" + classNo);
 		if (!classFolderPath.exists()) classFolderPath.mkdirs();
 		
 		insertStudent();
