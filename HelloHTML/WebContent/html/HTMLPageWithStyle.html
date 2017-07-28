@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Inner Style Sheet</title>
+<!-- 내부 스타일 시트 방식 -->
+<style>
+	h1, p {
+	background-color : black;
+	color : white;
+	}
+	p {
+	font-size : 32px;
+	}
+	body > p {
+	color : red;
+	}
+</style>
+</head>
+<body>
+<!-- h1과 폰트 사이즈가 32px인 p, strong의 조합은 동일 -->
+	<h1>Hello World..!</h1>
+	<p><strong>Hello World..!</strong></p>
+	<!-- Inline Style, Inner Style Sheet와 같은 속성의 스타일은 Inner를 무시하고 적용 -->
+	<h2 style = "background-color : red;">Test</h2>
+</body>
+</html>

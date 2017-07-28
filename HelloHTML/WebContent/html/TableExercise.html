@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Table Exercise</title>
+<script>
+function addRow() {
+	var fileTable = document.getElementById("fileTable");
+	var tBody = fileTable.tBodies[0];
+	var row = tBody.insertRow(tBody.rows.length);
+	
+	// Case 1. Member Function Call
+	row.insertCell(0).innerHTML = "<input type = \"checkbox\">";
+	for (var i = 1 ; i < 10 ; i++) {
+		row.insertCell(i).innerHTML = "<input style = \"width:90%\" type = \"text\">";
+	}
+	
+	// Case 2. innerHTML
+// 	row.innerHTML = 
+// 		"<td><input type = \"checkbox\"></td>\
+// 		<td></td>\
+// 		<td></td>\
+// 		<td></td>\
+// 		<td></td>\
+// 		<td></td>\
+// 		<td></td>\
+// 		<td></td>\
+// 		<td></td>\
+// 		<td></td>"
+}
+
+function delRow() {
+	var fileTable = document.getElementById("fileTable");
+	var tBody = fileTable.tBodies[0];
+	
+	for (var i = tBody.rows.length -1 ; i >= 0 ; i--) {
+		var trObj = tBody.rows[i];
+		if (trObj.children[0].children[0].checked) {
+			tBody.deleteRow(i);
+		}
+	} 
+}
+</script>
+</head>
+<body>
+	<h2 align = "center">자료보관문서색인표</h2>
+	<div style = "width:50em; margin:auto;">
+	<input style = "margin-left:2em; margin-bottom:1em;" type = "button" value = "행추가" onclick = "addRow()">
+	<input type = "button" value = "행삭제" onclick = "delRow()">
+	<table id = "fileTable" border = "1" style = "width:45rem; margin:auto;">
+		<thead>
+			<tr>
+				<th style = "width : 3rem" rowspan = "2">선택</th>
+				<th style = "width : 3rem" rowspan = "2">HD</th>
+				<th style = "width : 3rem" rowspan = "2">보존<br>기간</th>
+				<th colspan = "3">보관철</th>
+				<th style = "width : 5rem" rowspan = "2">보관부서</th>
+				<th style = "width : 3rem" rowspan = "2">승인<br>여부</th>
+				<th style = "width : 4rem" rowspan = "2">승인</th>
+				<th style = "width : 5rem" rowspan = "2">폐기일</th>
+			</tr>
+			<tr>
+				<th style = "width : 5rem">분류기호</th>
+				<th style = "width : 10rem">자료명</th>
+				<th style = "width : 4rem">전장수</th>
+			</tr>
+		</thead>
+		<tbody style = "text-align:center">
+			<tr>
+				<td><input type = "checkbox"></td>
+				<td><input style = "width:90%" type = "text"></td>
+				<td><input style = "width:90%" type = "text"></td>
+				<td><input style = "width:90%" type = "text"></td>
+				<td><input style = "width:90%" type = "text"></td>
+				<td><input style = "width:90%" type = "text"></td>
+				<td><input style = "width:90%" type = "text"></td>
+				<td><input style = "width:90%" type = "text"></td>
+				<td><input style = "width:90%" type = "text"></td>
+				<td><input style = "width:90%" type = "text"></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	<!-- <h1>City Selling Table</h1>
+	<table border = "1">
+		<thead>
+			<tr>
+				<th rowspan = "2" colspan = "2"></th>
+				<th colspan = "4">Quarter</th>
+			</tr>
+			<tr>
+				<th style = "width : 15%">1 Quarter</th>
+				<th style = "width : 15%">2 Quarter</th>
+				<th style = "width : 15%">3 Quarter</th>
+				<th style = "width : 15%">4 Quarter</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td style = "width : 20%" rowspan = "2">Country 1</td>
+				<td style = "width : 20%">City 1</td>
+				<td>10</td>
+				<td>1</td>
+				<td>3</td>
+				<td>4</td>
+			</tr>
+			<tr>
+				<td>City 2</td>
+				<td>8</td>
+				<td>4</td>
+				<td>7</td>
+				<td>5</td>
+			</tr>
+			<tr>
+				<td rowspan = "2">Country 2</td>
+				<td>City 3</td>
+				<td>1</td>
+				<td>6</td>
+				<td>4</td>
+				<td>9</td>
+			</tr>
+			<tr>
+				<td>City 4</td>
+				<td>5</td>
+				<td>2</td>
+				<td>3</td>
+				<td>6</td>
+			</tr>
+		</tbody>
+	</table>-->
+</body>
+</html>

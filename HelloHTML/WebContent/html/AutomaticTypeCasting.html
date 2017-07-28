@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Automatic Type Casting</title>
+<script>
+(function() {
+	var v1 = "ab", v2, v3 = null, v4 = 1;
+	var obj1 = {}, obj2 = {};
+	console.log("5" + 2);
+	console.log(5 + "2");
+	console.log(v1 + v2);
+	console.log(v1 + v3);
+	console.log(v1 + v4);
+	console.log(v4 + v3);
+	console.log(v4 + v2);
+	console.log("5" * "2");
+	console.log(obj1 * obj2);
+	console.log(v2 * v2);
+	console.log(v3 * v3);
+	if ("0" && 1) console.log(true);
+	else console.log(false);
+	console.log(parseInt("123abcba321"));
+	console.log(Number("123abcba321"));
+})();
+</script>
+</head>
+<body>
+
+</body>
+</html>

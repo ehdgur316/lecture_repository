@@ -1,0 +1,4 @@
+/**
+ * 
+ */
+alert(".js File Test");

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Variable Scope</title>
+<script>
+/*
+ * JavaScript 변수의 특징을 활용
+ * 1. 함수 내에서 선언된 적이 없는 변수를 사용할 경우
+ *  해당 변수를 Global Scope에 즉시 할당하여 사용(result 변수)
+ * => 권고하지 않는 사용 방식, 변수 범위에 의해 오작동할 여지가 있음
+ * 
+ * 2. 변수의 선언보다 호출을 먼저 할 경우
+ *  오류가 발생하지 않고 정상적으로 사용됨(result4 변수)
+ * (함수 전체에서 선언조차 되지 않은 변수 호출시에는 오류 발생)
+ * => 함수가 실행되면 함수 내의 변수(함수 포인터 포함) 목록을 먼저 찾아 undefined로 할당함
+ */
+var gVal1 = 0;
+var gVal2 = 9;
+console.log(add(gVal1, gVal2));
+//console.log(subtract(gVal1, gVal2));
+
+(function() {
+	var a = 1;
+	var b = 2;
+	
+	// 변수 특징 1. 선언한 적 없는 변수의 사용
+	result = add(a, b);
+	
+	// 변수 특징 2. 선언보다 먼저 변수를 사용
+	result4 = a + b;
+	console.log(result4);
+	var result4;
+	
+	function add(x, y) {
+		return x + y;
+	}
+})();
+// Hoisting의 예시1 - 실행문보다 늦게 선언된 전역함수 add
+function add(x,y) {
+	return x + y;
+}
+// Hoisting의 예시2 - 무기명 함수
+var subtract = function(x,y) {
+	return x - y;
+}
+
+window.onload = function() {
+	console.log(result);
+}
+</script>
+</head>
+<body>
+<h3>JavaScript 변수의 범위(Variable Scope)</h3>
+function(local)과 window(global)<br>
+IIFE 내의 변수 a, b, result4, add는 function(local) scope variable<br>
+(function 밖에서 접근할 수 없음)<br>
+&ltscript&gt tag 안, 함수 밖에서 선언된 변수 gVal은 window(global) scope variable<br>
+<br>
+<h3>유효범위 끌어올림(Hoisting)</h3>
+기본적으로 함수 내에서 선언된 변수는 선언 위치와 상관없이 undefined 값으로 할당된 채 생성됨<br>
+함수 내에서 선언된 함수는 선언 위치와 상관없이 함수 기능까지 구현되어 생성됨<br>
+단, 무기명 함수 형식으로 선언된 함수는 함수 포인터가 가리키는 값이 undefined가 되어 기명 함수와는 다르게 사용 불가능<br>
+</body>
+</html>

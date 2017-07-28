@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Form Tag Tutorial</title>
+<style>
+	form {
+		border : 2px solid #0000FF;
+		padding : 3px;
+		width : 50%;
+	}
+	span {
+		display : block;
+		padding : 5px;
+	}
+</style>
+</head>
+<body>
+	<p>회원가입</p>
+	<form action = "#" method = "POST">
+		<span>이름 <input type = "text" placeholder = "예) 홍길동"></span>
+		<span>생년월일 <input type = "date"></span>
+		<span>성별
+			<input type = "radio" name = "gender" value = "Male">Male
+			<input type = "radio" name = "gender" value = "Female">Female
+		</span>
+		<span><input type = "reset"> <input type = "submit"></span>
+		<textarea style = "width:90%; height:100px">lorem ipsum</textarea>
+		<select>
+			<optgroup label = "Alphabet">
+				<option value = "aaa">aaa</option>
+				<option value = "bbb">bbb</option>
+			</optgroup>
+		</select>
+		<select multiple>
+			<option value = "ccc">ccc</option>
+			<option value = "ddd">ddd</option>
+			<option value = "eee">eee</option>
+		</select>
+	</form>
+</body>
+</html>

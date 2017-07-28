@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Div and Span Tag</title>
+<script>
+	var regexp = /[a-z]/g;
+	console.log(regexp.test('a'));
+	console.log(regexp.test('A'));
+</script>
+<style>
+	header, nav, section, aside, footer {
+		border : 1px solid black;
+		margin : 3px;
+		padding : 2px;
+	}
+	div, span {
+		border : 2px solid blue;
+		margin : 2px 1px;
+	}
+	span {
+		border-color : red;
+	}
+</style>
+</head>
+<body>
+	<header>Div Span</header>
+	<nav>
+		<a href = "#">Home</a>&nbsp;|
+		<a href = "#">News</a>&nbsp;|
+	</nav>
+	<section>
+	<div style = "width:50%">Block Type
+		<div style = "width:50%;">Nested Block Type</div>
+	</div>
+		<div>Block Type</div>
+		<div>Block Type</div>
+		<div>Block Type</div>
+		<div>Block Type</div>
+		<br> 
+		<span>In-line Type</span> 
+		<span>In-line Type</span> 
+		<span>In-line Type</span> 
+		<span>In-line Type</span> 
+		<span>In-line Type</span>
+		<table>
+			<tr>
+				<td>Table</td>
+			</tr>
+		</table>
+		<input type="text" value="text1"> <input type="text" value="text2"> <input
+			type="text" value="text3">
+	</section>
+	<aside>
+		Side Section
+	</aside>
+	<footer>2017</footer>
+</body>
+</html>

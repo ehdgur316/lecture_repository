@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Script Object Literal</title>
+<script>
+/*
+ * 여러 종류의 변수를 하나에 담은 객체 Literal의 예시
+ * 문자열, 정수(숫자), 심지어 함수까지 가능
+ */
+var computer = {
+	// 객체 Literal 중 Function이 아닌 것 - Field
+	manufacturer : "HP",
+	modelNm : "HP-5540N",
+	outPrice : 748000,
+	isColor : true,
+	// 객체 Literal 중 Function인 것 - Method
+	func : {turnOn : function() {
+				console.log("Turn ON");
+			},
+			turnOff : function() {
+				console.log("Turn OFF");
+			},
+			volumeUp : function() {
+				console.log("Volume UP");
+			},
+			volumeDown : function() {
+				console.log("Volume Down");
+			}
+	}
+};
+/*
+ * 객체 Literal에 접근하는 두 가지 방법
+ *  1. .(dot product)
+ *   (Object 식별자).(property 이름) 으로 호출
+ *  2. [](property 이름 호출)
+ *   (Object 식별자)[(property 이름)] 으로 호출
+ *   단, property 이름을 문자열로 줄 것
+ */
+console.log(computer.manufacturer);
+console.log(computer["modelNm"]);
+console.log(computer.outPrice);
+console.log(computer["isColor"]);
+console.log(computer.func);
+computer.func.turnOn();
+computer["func"].turnOff();
+// 호출은 되지만 역시 권장하지 않음
+// computer["func"]["volumeUp"]();
+// 새로운 property의 값을 추가 가능 <- 유연한 프로그래밍
+computer.isPentium = true;
+console.log(computer.isPentium);
+
+// 사용하긴 하지만 사용빈도는 상대적으로 낮은 방법
+var myPerson = new Object();
+myPerson.name = "홍길동";
+myPerson.age = 500;
+myPerson.showInfo = function() {
+	// 객체 Literal에서의 this의 역할 <- 중요!
+	console.log(this.name);
+	console.log(this.age);
+}
+console.log(myPerson.name);
+myPerson.showInfo();
+</script>
+</head>
+<body>
+
+</body>
+</html>

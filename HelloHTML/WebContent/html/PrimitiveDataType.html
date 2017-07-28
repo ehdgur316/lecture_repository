@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Primitive Data Type</title>
+<script>
+/* IIFE(Immediatly Invoked Function Expression : 즉시실행 함수 표현)
+ *  함수 선언과 동시에 즉시 해당 함수를 실행하는 기법
+ *  Anonymous Function(Local)로 실행됨
+ *
+ * 사용법 : 실행하고자 하는 함수를 ()로 묶고 맨 끝에 매개변수 항 ()를 추가
+ */
+(function() {
+	var primitiveVar1 = "John";
+	var primitiveVar2 = 3.14;
+	var obj = [name = "Kim"];
+	var refVar = obj;
+	refVar.age = 20;
+	console.log(">ω<");
+	console.log("\>\u03C9\<");
+	console.log("QWERTYASDFZXCV".toLowerCase());
+	console.log("qwertyasdfzxcv".toUpperCase());
+})();
+	
+window.onload = function() {
+	document.getElementById("str").innerHTML += typeof "String";
+	document.getElementById("num").innerHTML += typeof 1;
+	document.getElementById("bool").innerHTML += typeof true;
+	document.getElementById("null").innerHTML += typeof null;
+	document.getElementById("undef").innerHTML += typeof undefined;
+}
+
+</script>
+</head>
+<body>
+	<h3>Primitive Data Type List</h3>
+	<ul>
+		<li id = "str">string : </li>
+		<li id = "num">number : </li>
+		<li id = "bool">boolean : </li>
+		<li id = "null">null : </li>
+		<li id = "undef">undefined : </li>
+	</ul>
+</body>
+</html>

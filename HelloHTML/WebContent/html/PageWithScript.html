@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+document.write("Title Script");
+</script>
+</head>
+<body>
+	<script>
+	document.write("<h1>Body Script1</h1>");
+	document.write("<h2>Body Script2</h2>");
+	document.write("<h3>Body Script3</h3>");
+	document.write("<h3>Body Script4</h3>");
+	document.write("<h3>Body Script5</h3>");
+	document.write("<h2>Body Script6</h2>");
+	document.write("<h3>Body Script7</h3>");
+	document.write("<h4>Body Script8</h4>");
+	document.write("<h2>Body Script9</h2>");
+	document.write("<h1>Body Script0</h1>");
+	/*
+	 * 유연한 변수 설정 -> 오류 발생의 여지가 높으므로 사용시 극히 주의할 것
+	 */
+	var num1 = 1;
+	var num2 = 2;
+	document.write("<p>num1 + num2 = " + (num1 + num2) + "</p>");
+	/*
+	 * Int값은 +- 9007199254740992까지. 초과되면 최대치까지만
+	 */
+	console.log(parseInt(9007199254740992 + 1, 10));
+	console.log(parseInt(-9007199254740992 - 1, 10));
+	</script>
+</body>
+</html>
