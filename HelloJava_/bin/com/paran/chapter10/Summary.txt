@@ -1,0 +1,2 @@
+Class 멤버 변수/함수
+ Static 선언 -> class/instance 멤버 변수/함수를 구별하는 한정자
