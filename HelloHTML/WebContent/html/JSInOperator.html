@@ -31,6 +31,9 @@
 		foo();
 		biz();
 	}();
+	
+	var currentDate = new Date();
+	console.dir(currentDate);
 })();
 </script>
 </head>
@@ -44,7 +47,9 @@ hasOwnProperty 연산자로 검색할 것</p>
 Array 타입 a의 __proto__는 Array이므로 Array와 a는 IS-A 관계(instanceof 결과 true)<br>
 Array의 __proto__는 Object이므로 Object와 a는 IS-A 관계(instanceof 결과 true)<br>
 &#10032;__proto__ 형태의 요소를 내부 요소(Internal Property)라 칭함<br>
-원래 형태는 [[prototype]]</p>
+원래 형태는 [[prototype]]<br>
+__proto__는 Prototype Link, Object.prototype은 Prototype Property<br>
+Link와 Property 사이에 연쇄 관계가 형성 -&gt; prototype chain 관계</p>
 <h3>IIFE의 또 다른 형태</h3>
 <p>기존의 즉시실행 함수 표현법은<br>(function() {<br>&nbsp;&nbsp;expressions<br>})();<br>형태로 선언<br>
 또 다른 형태의 즉시실행 함수 표현법은<br>void function fname() {<br>&nbsp;&nbsp;expressions<br>}();</p>
