@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CSS Pseudo Tag</title>
+<style>
+	* {
+		padding:10px;
+	}
+	p {
+		display:none;
+		background-color:yellow;
+		padding:20px;
+	}
+	div:active p {
+		display:block;
+	}
+	h1#first_title:hover {
+		color:green;
+	}
+	h1#second_title:hover {
+		color:red;
+	}
+	h1#third_title:hover {
+		color:blue;
+	}
+	input:checked{
+		width:1px;
+		height:1px;
+	}
+	input[type=text]:disabled {
+		background: #dddddd;
+	}
+	form#send_data_form input[data_validation="y"] {
+		background: red;
+	}
+	p:nth-child(odd) {
+		color:hotpink;
+	}
+</style>
+</head>
+<body>
+	<h1 id = "first_title">반응 선택자</h1>
+	<h1 id = "second_title">반응 선택자</h1>
+	<h1 id = "third_title">반응 선택자</h1>
+	<div><p>p1</p><p>p2</p></div><br><br>
+	<div><p>p1</p><p>p2</p></div>
+	<div>Click and hold it!
+		<p>Tada! Here I am!</p>
+	</div>
+	<form id = send_data_form>
+		<input type = "checkbox" >
+		<input type = "text" disabled value = "test1">
+		<input type = "text" value = "test2" data_validation = "y">
+	</form>
+	<table>
+		<tr>
+			<td>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

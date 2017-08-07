@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Variable Scope Chapter II</title>
+<script> 
+	// global scope : global 영역에서 선언된 변수에 한해 접근가능
+	var g_title = "global";
+	// oVar, iVar이 이곳에 선언되어 있어도 정상실행
+	//var oVar = 1;
+	//var iVar = 2;
+	outer();
+	
+	// outer scope : outer 영역에서 선언된 변수 -> global scope
+	function outer() {
+		var oVar = 1;
+		var g_title = "outer";
+		// iVar이 이곳에 선언되어 있어도 정상실행
+		//var iVar = 2;
+		inner();
+		//outer2();
+		
+		// inner scope : inner 영역 -> outer -> global scope
+		function inner() {
+			var iVar = 2;
+			var g_title = "inner";
+			console.log(iVar);
+			console.log(oVar);
+			console.log(g_title);
+		}
+	}
+	
+	// outer2의 scope는 outer2 -> global 뿐이므로 outer의 oVar 접근 불가
+	function outer2() {
+		console.log(oVar);
+	}
+	
+	// closure의 예시
+	function closureTest(pName) {
+		var name = pName;
+		function getName() {
+			return name;
+		}
+		return getName; // <- getName() 함수를 실행한 것이 아닌 getName 함수 위치를 가리키는 포인터를 return
+	}
+
+	(function() {
+		var test = closureTest("홍길동");
+		var test1 = closureTest("임꺽정");
+		console.log(test()); // test는 getName 함수 포인터를 받음 -> 함수 호출법으로 실행할 수 있음.
+		console.log(test1());
+	})();
+</script>
+</head>
+<body>
+<h4>VO(Variable Object)</h4>
+<p>현재 Window에서 선언된 모든 변수의 묶음<br>
+Script Compile 과정에서 모든 변수를 담아두는 변수 객체<br>
+이 과정에서 Undefined로 변수를 선언하는 것이 Hoisting</p>
+<br>
+<h4>EC(Execution Context)</h4>
+<p>실행 영역<br>
+스크립트 실행시 생성되는 Global Context와 함수가 호출될 때 실행되는 Active Context<br>
+기본적으로 Stack의 FILO 구조를 따름</p>
+<br>
+<h4>Closure</h4>
+<p>test에 의해 closureTest가 실행되고 그 동작이 끝난 뒤,<br>
+EC에서는 closureTest가 사라졌지만 closureTest에서 반환된 getName 함수 포인터에 의해 VO가 남아있음<br>
+test1으로 재호출할 경우 또 한 번 closureTest가 생성되고 EC에서 사라지면서 또 다른 VO를 생성하고 남김<br>
+이와 같이 내부 함수를 가리키는 외부 변수가 존재하면 내부 함수를 포함하고 있는 VO는 메모리에 남고<br>
+VO가 남는 원인이 되는 내부 함수를 Closure라고 함</p>
+<br>
+</body>
+</html>

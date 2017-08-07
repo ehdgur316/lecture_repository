@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CSS Selector Demo</title>
+<style>
+	h1, p {
+		color:red;
+	}
+	.fruit {
+		color:red;
+	}
+	header {
+		background-color:red;
+	}
+	aside {
+		background-color:green;
+	}
+	span#content {
+		background-color:blue;
+	}
+	input[type = text] {
+		background-color:red;
+	}
+	div.div_content > p {
+		background-color:yellow;
+	}
+	div p {
+		background-color:pink;
+	}
+</style>
+</head>
+<body>
+	<header>#header 태그</header>
+	<aside>#aside 태그</aside>
+	<span id="content">content id</span>
+	<h1>제목 글자 태그</h1>
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+		eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+		minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+		aliquip ex ea commodo consequat. Duis aute irure dolor in
+		reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+		pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+		culpa qui officia deserunt mollit anim id est laborum.</p>
+	<ul>
+		<li class="fruit">사과</li>
+		<li>바나나</li>
+		<li class="fruit">오렌지</li>
+		<li>감</li>
+	</ul>
+	<input type="text" value="text1">
+	<input type="text" value="text2">
+	<div class = div_content>
+		<p>div &gt; p</p>
+	</div>
+	<div>
+		<table>
+			<tr>
+				<td>
+					<p>div p</p>
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

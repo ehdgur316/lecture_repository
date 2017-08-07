@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CSS Attribute</title>
+<style>
+	p {
+		font-size:1em;
+	}
+	p.small {
+		font-size:2em;
+	}
+	p.medium {
+		font-size:3em;
+	}
+	p.large {
+		font-size:4em;
+	}
+	section article {
+		border:1px solid #0000FF;
+		margin:1em 1em;
+		border-radius:25px;
+	}
+	section#firstSection article {
+		text-align:center;
+		background-color:gray;
+	}
+	section#secondSection article {
+		text-align:justify;
+		background-color:pink;
+	}
+	section table.salaryTable {
+		width:100%;
+	}
+	section table.salaryTable,
+	section table.salaryTable th,
+	section table.salaryTable td{
+		border-collapse : collapse;
+		border:1px solid black;
+	}
+	section table.salaryTable > thead > tr > th {
+		width:25%;
+		background-color:pink;
+	}
+	section table.salaryTable > tbody > tr > td {
+		text-align:center;
+		background-color:lightblue;
+	}
+	section table.salaryTable > tbody > tr > td.salary {
+		text-align:right;
+		background-color:lightgreen;
+	}
+	div {
+		background-color:#FF0000;
+		width:100px;
+		height:100px;
+		display:inline-block;
+	}
+	div.hasBox {
+		border:5px solid #000000;
+		padding:10px;
+		margin:10px;
+	}
+</style>
+</head>
+<body>
+	<header><h1>CSS Attribute</h1></header>
+	<section>
+		<div>div</div>
+		<div class = "hasBox">div has box model</div>
+	</section>
+	<section id = "firstSection">
+		<article>
+			<p>p tag CSS Attribute1</p>
+			<p>p tag CSS Attribute2</p>
+		</article>
+		<article>
+			<p class = "small">SMALL</p>
+			<p class = "medium">MEDIUM</p>
+			<p class = "large">LARGE</p>
+		</article>
+	</section>
+	
+	<section id = "secondSection">
+		<article>
+			<p>p tag CSS Attribute1</p>
+			<p>p tag CSS Attribute2</p>
+		</article>
+		<article>
+			<p class = "small">SMALL</p>
+			<p class = "medium">MEDIUM</p>
+			<p class = "large">LARGE</p>
+		</article>
+	</section>
+	
+	<section><h2>&#10030;급여 테이블</h2>
+		<table class = "salaryTable">
+			<thead>
+				<tr>
+					<th>사원ID</th>
+					<th>사원명</th>
+					<th>직급</th>
+					<th>기본급</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>201509001</td>
+					<td>홍길동</td>
+					<td>대리</td>
+					<td class = "salary">1,500,000</td>
+				</tr>
+				<tr>
+					<td>201509002</td>
+					<td>임꺽정</td>
+					<td>대리</td>
+					<td class = "salary">1,300,000</td>
+				</tr>
+				<tr>
+					<td>201509003</td>
+					<td>변사또</td>
+					<td>사원</td>
+					<td class = "salary">1,200,000</td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+</body>
+</html>

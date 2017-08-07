@@ -40,10 +40,10 @@ console.log(add(gVal1, gVal2));
 function add(x,y) {
 	return x + y;
 }
-// Hoisting의 예시2 - 무기명 함수
+// Hoisting의 예시2 - 무기명 함수(무기명 함수의 끝에는 세미콜론을 붙여줄 것 - 오작동 가능성 있음)
 var subtract = function(x,y) {
 	return x - y;
-}
+};
 
 window.onload = function() {
 	console.log(result);
@@ -55,11 +55,12 @@ window.onload = function() {
 function(local)과 window(global)<br>
 IIFE 내의 변수 a, b, result4, add는 function(local) scope variable<br>
 (function 밖에서 접근할 수 없음)<br>
-&ltscript&gt tag 안, 함수 밖에서 선언된 변수 gVal은 window(global) scope variable<br>
+&lt;script&gt; tag 안, 함수 밖에서 선언된 변수 gVal은 window(global) scope variable<br>
+&#10030; IIFE : Immediately Invoked Function Expression(즉시 실행 함수 표현)
 <br>
 <h3>유효범위 끌어올림(Hoisting)</h3>
 기본적으로 함수 내에서 선언된 변수는 선언 위치와 상관없이 undefined 값으로 할당된 채 생성됨<br>
-함수 내에서 선언된 함수는 선언 위치와 상관없이 함수 기능까지 구현되어 생성됨<br>
+함수 내에서 선언된 함수는 선언 위치와 상관없이 함수 기능까지 구현하여 생성한 뒤 이를 가리키는 함수 포인터가 됨<br>
 단, 무기명 함수 형식으로 선언된 함수는 함수 포인터가 가리키는 값이 undefined가 되어 기명 함수와는 다르게 사용 불가능<br>
 </body>
 </html>

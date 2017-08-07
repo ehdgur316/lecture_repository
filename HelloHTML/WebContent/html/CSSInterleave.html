@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>CSS Interleave</title>
+<style>
+	table {
+		border-collapse:collapse;
+	}
+	td {
+		text-align:center;
+	}
+	th, td {
+		width:50px;
+		height:30px;
+	}
+	table, th, td {
+		border:1px solid black;
+	}
+	th:nth-child(2n-1) {
+		background:pink;
+	}
+	th:nth-child(2n) {
+		background:lightblue;
+	}
+	td:hover {
+		background:yellow;
+	}
+	p::after { 
+    	content: " - Remember this";
+	}
+	p::first-letter {
+		font-size:150%;
+	}
+</style>
+</head>
+<body>
+	<p>After Test</p>
+	<table>
+		<thead>
+			<tr>
+				<th>th</th>
+				<th>th</th>
+				<th>th</th>
+				<th>th</th>
+				<th>th</th>
+				<th>th</th>
+				<th>th</th>
+				<th>th</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>td</td>
+				<td>td</td>
+				<td>td</td>
+				<td>td</td>
+				<td>td</td>
+				<td>td</td>
+				<td>td</td>
+				<td>td</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

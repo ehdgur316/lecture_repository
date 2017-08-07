@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JavaScript In Operator</title>
+<script>
+(function() {
+	var obj = {name:"홍길동",
+			   age:15};
+	for (var sdel in obj) {
+		console.log(sdel, obj[sdel]);
+	}
+	console.dir(obj);
+	if (obj.hasOwnProperty("constructor")) {
+		console.log(obj["age"]);
+	}
+	var a = [];
+	console.log(a instanceof Array);
+	console.log(a instanceof Object);
+	console.dir(a);
+	
+	void function life() {
+		var bar = function(){};
+		var baz = function(){};
+		var foo = function(){
+			bar();
+			baz();
+		};
+		var biz = function(){console.dir(a);};
+		
+		foo();
+		biz();
+	}();
+})();
+</script>
+</head>
+<body>
+<h3>in 연산자</h3>
+<p>Object 변수가 특정 요소를 포함하고 있는지 검사하는 데 쓰이는 연산자<br>
+if로 __proto__ 내의 요소가 포함되어 있는지 검사하면 검사가 되기 때문에<br>
+hasOwnProperty 연산자로 검색할 것</p>
+<h3>JavaScript의 IS-A 관계</h3>
+<p>두 요소의 __proto__ 사이에 연관 관계가 형성되면 IS-A 관계<br>
+Array 타입 a의 __proto__는 Array이므로 Array와 a는 IS-A 관계(instanceof 결과 true)<br>
+Array의 __proto__는 Object이므로 Object와 a는 IS-A 관계(instanceof 결과 true)<br>
+&#10032;__proto__ 형태의 요소를 내부 요소(Internal Property)라 칭함<br>
+원래 형태는 [[prototype]]</p>
+<h3>IIFE의 또 다른 형태</h3>
+<p>기존의 즉시실행 함수 표현법은<br>(function() {<br>&nbsp;&nbsp;expressions<br>})();<br>형태로 선언<br>
+또 다른 형태의 즉시실행 함수 표현법은<br>void function fname() {<br>&nbsp;&nbsp;expressions<br>}();</p>
+</body>
+</html>
