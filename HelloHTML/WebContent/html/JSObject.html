@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JavaScript Object</title>
+<script>
+function add(a, b) {
+	return a + b;
+}
+console.dir(add);
+
+var gVar = 1;
+outer();
+console.log(outer.version);
+function outer() {
+	var oVar = 2;
+	inner();
+	function inner() {
+	console.dir(inner);
+		var iVar = 3;
+	}
+}
+outer.version = 1.5;
+outer.sayHello = function() {
+	// sayHello 함수 내의 지역변수 version을 찾음
+	//console.log(version);
+	// sayHello 상위 객체인 outer의 Property version을 찾음
+	console.log(this.version);
+};
+console.dir(outer);
+outer.sayHello();
+</script>
+</head>
+<body>
+<h3>Lexical Environment</h3>
+<p>Creation Phase의 일부(ECMA Script 3 이후)<br>
+어휘적으로 표현된 스크립트 구조와 이에 따른 Property/Prototype 관계를 의미<br>
+Environment Record와 Outer Reference로 구성</p>
+<h3>Environment Record</h3>
+<p>함수에서 선언된 모든 지역변수 정보 저장<br>
+지역변수 중 변수는 Undefined로 생성 및 초기화,<br>
+지역변수 중 함수는 함수 생성 후 함수 포인터 바인딩<br>
+(표현식 함수는 함수 포인터가 Undefined로 생성/초기화됨)</p>
+<h3>Outer Reference</h3>
+<p>함수 외부(상위 Scope)를 참조하는 것</p>
+<p></p>
+</body>
+</html>

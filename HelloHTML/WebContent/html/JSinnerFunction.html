@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JavaScript Inner Function</title>
+<script>
+var value = 100;
+
+var myObject = {
+		value : 1,
+		func1 : function() {
+			// this = myObject
+			this.value += 1;
+			console.log('func1() called. this.value : ' + this.value); // return 2
+		
+			func2 = function() {
+				// thisBinding 없음 = global
+				this.value += 1;
+				// global에서 선언된 변수 -> global의 Property로 인식(global에선 변수를 객체로 생성)
+				console.log('func2() called. this.value : ' + this.value); // return 101
+				
+				func3 = function() {
+					// 마찬가지로 thisBinding 없음
+					this.value += 1;
+					// 마찬가지로 global의 Property
+					console.dir(this);
+					console.log('func3() called. this.value : ' + this.value); // return 102
+				}
+				
+				func3();
+			}
+			
+			func2();
+		}
+};
+
+myObject.func1();
+</script>
+</head>
+<body>
+
+</body>
+</html>

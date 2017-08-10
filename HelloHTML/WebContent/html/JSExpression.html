@@ -4,43 +4,43 @@
 <meta charset="UTF-8">
 <title>Expression</title>
 <script>
-	var option = { color:"black",
-				   width:"50px",
-				   height:"50%"};
-	(function(option) {
-		var nameArr = [];
-		var ageArr = new Array();
-		nameArr[0] = 1;
-		nameArr[1] = 2;
-		nameArr[2] = { name : "홍길동" };
-		nameArr.description = "배열 연습";
-		nameArr["subDescription"] = "배열 연습";
-		console.log(nameArr.description);
-		
-		// primitive data type에 대해서 property 생성 불가
-// 		var number = 1;
-// 		number.description = "원시 타입";
-// 		console.log(number.description);
-		
-// 		var title = "문자열";
-// 		title.description = "원시 타입";
-// 		console.log(title.description);
-		var defaultOption = { color:"red",
-							  width:"100px",
-							  height:"100%"};
-		// || 연산 -> 좌항의 값이 있으면 좌항의 값을 반환, 없으면 우항의 값 반환
-		var opt = option||defaultOption;
-		
-		console.log(opt);
-// 		nameArr.push("홍길동");
-// 		nameArr.push("임꺽정");
-// 		ageArr.push(15);
-// 		ageArr.push(30);
-// 		console.log(nameArr.pop());
-// 		console.log(ageArr.pop());
-// 		console.log(nameArr.pop());
-// 		console.log(ageArr.pop());
-	})(option);
+var option = { color:"black",
+			   width:"50px",
+			   height:"50%"};
+(function(option) {
+	var nameArr = [];
+	var ageArr = new Array();
+	nameArr[0] = 1;
+	nameArr[1] = 2;
+	nameArr[2] = { name : "홍길동" };
+	nameArr.description = "배열 연습";
+	nameArr["subDescription"] = "배열 연습";
+	console.log(nameArr.description);
+	
+	// primitive data type에 대해서 property 생성 불가
+// 	var number = 1;
+// 	number.description = "원시 타입";
+// 	console.log(number.description);
+	
+// 	var title = "문자열";
+// 	title.description = "원시 타입";
+// 	console.log(title.description);
+	var defaultOption = { color:"red",
+						  width:"100px",
+						  height:"100%"};
+	// || 연산 -> 좌항의 값이 있으면 좌항의 값을 반환, 없으면 우항의 값 반환
+	var opt = option||defaultOption;
+	
+	console.log(opt);
+// 	nameArr.push("홍길동");
+// 	nameArr.push("임꺽정");
+// 	ageArr.push(15);
+// 	ageArr.push(30);
+// 	console.log(nameArr.pop());
+// 	console.log(ageArr.pop());
+// 	console.log(nameArr.pop());
+// 	console.log(ageArr.pop());
+})(option);
 </script>
 </head>
 <body>

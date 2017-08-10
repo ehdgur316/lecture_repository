@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JavaScript Object 2</title>
+<script>
+(function() {
+	var obj = { userName:"홍길동",
+			getUserName:function() {
+				// 그냥 userName -> global scope 내의 userName 변수 탐색
+				// this.userName -> 이 함수를 Property로 가지고 있는 객체가 가진 userName Property 탐색 
+				return this.userName;
+			}
+	};
+	console.log(obj.getUserName());
+	var obj2 = { userName:"임꺽정",
+			getUserName:null
+	};
+	obj2.getUserName = obj.getUserName;
+	console.log(obj2.getUserName.apply(obj));
+	
+	function sum() {
+		// thisBinding의 정보가 없을 경우 -> window객체(global)와 Binding
+		//console.log(this);
+		// 현재, Window객체(global)의 존재하지 않는 x, y Property(Undefined)를 합산 -> NaN 반환
+		return this.x + this.y;
+	}
+	var obj3 = { x:3, y:5,
+			sumFunc:function() {
+				// thisBinding 과정이 없음 -> 다시 window객체(global) Binding
+				// sumFunc 실행 시 obj3가 thisBinding되므로 apply의 매개변수로 this를 줄 수 있음
+				return sum.apply(this);
+			}
+	};
+	console.log(sum.apply(obj3));
+	console.log(obj3.sumFunc());
+	
+	var num = new Number(1234);
+	console.dir(num);
+})();
+</script>
+</head>
+<body>
+<h3>thisBinding</h3>
+<p>Creation Phase의 일부<br>
+함수 실행시 어떤 객체가 this 명령과 Binding 될 건지 정하는 과정<br>
+일반적으로 실행된 함수를 포함하고 있는 객체가 thisBinding 대상<br>
+(obj2.getUserName() 실행시 getUserName() 내에 있는 this는 obj2와 binding)<br>
+apply나 call 메서드로 명시적 thisBinding 할 수도 있음<br>
+(obj2.getUserName.apply(obj) 실행시 getUserName() 내에 있는 this는 obj와 binding)</p>
+</body>
+</html>

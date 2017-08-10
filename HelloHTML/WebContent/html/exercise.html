@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>도로명 조회</title>
+<script type="text/javascript" src="../js/region.json"></script>
+<script>
+var addSelect = function(pid) {
+	var selectObj = document.createElement("SELECT");
+	var optionObj = document.createElement("OPTION");
+	
+	optionObj.value = 0;
+	optionObj.innerHTML = "=선택=";
+	selectObj.appendChild(optionObj);
+	
+	for (index in region.area) {
+		if (region.area[index].pid == pid) {
+			optionObj = document.createElement("OPTION");			
+			optionObj.value = region.area[index].id;
+			optionObj.innerHTML = region.area[index].name;
+			selectObj.appendChild(optionObj);
+		}
+	}
+	
+	selectObj.addEventListener("change", changeEventHandler);
+	
+	document.getElementById("selectArea").appendChild(selectObj);
+};
+
+var changeEventHandler = function() {
+	while(this.parentNode.lastChild != this) {
+		this.parentNode.removeChild(this.parentNode.lastChild);
+	}
+	if ((this.value != 0) && ((this.value) % 100 == 0)) {		
+		addSelect(this.value);
+	}
+	if ((this.value % 100) > 0) {
+		var result = "";
+		for (var i = 0 ; i < this.parentNode.childNodes.length ; i++) {
+			for (index in region.area) {
+				if (region.area[index].id == this.parentNode.childNodes[i].value) {
+					result += region.area[index].name + " ";
+				}	
+			}
+		}
+		alert(result);
+	}
+}
+
+window.onload = function() {
+	addSelect("");
+}
+</script>
+<style>
+	body {
+		background-color:lightblue;
+		padding:40px;
+	}
+	section {
+		background-color:white;
+		border-radius:10px;
+		text-align:center;
+		padding:20px;
+	}
+</style>
+</head>
+<body>
+	<section>
+		<h1>도로명 조회하기</h1>
+		<article id = "describe">
+			<p> 사용법 : 시/도, 시/군/구, 읍/면/동 순서대로 선택하면<br>
+			원하는 지역의 도로명을 조회할 수 있습니다.<br>
+			&#8251; 현재 지원되는 도시는 서울특별시와 전라남도 일부입니다.
+			</p>
+		</article>
+		<article id = "selectArea"></article>
+	</section>
+</body>
+</html>
