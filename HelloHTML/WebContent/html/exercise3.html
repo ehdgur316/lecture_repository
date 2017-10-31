@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>도로명 조회 3</title>
+<script type="text/javascript" src="../js/region.json"></script>
+<script>
+// IIFE와 window.onload를 복합적으로 사용하여 global 영역 보존
+(function(global){
+	function setChangeEventListener(selectId, selectValue) {
+		var targetSelect = document.getElementById(selectId);
+		var selectIdWithoutNum = selectId.substring(0, selectId.length - 1);
+		var selectNum = Number(selectId.substring(selectId.length - 1, selectId.length));
+		
+		for (var i = selectNum + 1 ; i < (targetSelect.parentNode.childNodes.length - 1) / 2 ; i++) {
+			// article과 select 사이, select와 select 사이의 개행문자도 childNode로 배열에 포함됨(childNodes 객체의 짝수번째 요소)
+			//  => index를 (i*2+1)로 하면 선택된 select의 다음 select만을 선택적으로 고를 수 있음
+			for (var j = 1 ; j < targetSelect.parentNode.childNodes[i*2+1].childNodes.length ; j) {
+				targetSelect.parentNode.childNodes[i*2+1].removeChild(targetSelect.parentNode.childNodes[i*2+1].lastChild);
+			}
+		}
+		
+		if (document.getElementById(selectIdWithoutNum + (selectNum + 1)) != null) {
+			createOptionTagByPid(selectIdWithoutNum + (selectNum + 1), selectValue);
+		}
+	};
+	
+	function createOptionTagByPid(selectId, pid) {
+		for (var del in region.area) {
+			if (region.area[del].pid == pid) {
+				var optionTag = document.createElement("OPTION");			
+				optionTag.value = region.area[del].id;
+				optionTag.innerHTML = region.area[del].name;
+				document.getElementById(selectId).appendChild(optionTag);
+			}
+		}
+	};
+	
+	function createBaseOption(selectId) {
+		var selectTag = document.getElementById(selectId);
+		var optionTag = document.createElement("OPTION");
+		
+		optionTag.value = 0;
+		optionTag.innerHTML = "=선택=";
+		selectTag.appendChild(optionTag);
+		
+		selectTag.addEventListener("change", function() {
+			setChangeEventListener(this.id, this.value);
+			}
+		);
+	};
+	
+	function buildChainedSelectTag(selectIdArr) {
+		for (var i = 0 ; i < selectIdArr.length ; i++) {
+			createBaseOption(selectIdArr[i]);
+		}
+		createOptionTagByPid(selectIdArr[0], "");
+	};
+	// global 영역에 가장 초기에 실행되어야 하는 함수만을 공개
+	global._buildChainedSelectTag = buildChainedSelectTag;
+	// window 객체가 undefined 이면 this, 아니면 window
+})(typeof window === "undefined" ? this : window);
+
+window.onload = function() {
+	// 입력 정보 : select Tag의 ID 배열
+	//  (단, 각 ID의 맨 끝은 연속된 일의자릿수 숫자여야 함)
+	var selectIdArr = ["select0", "select1", "select2", "select3"];
+	
+	_buildChainedSelectTag(selectIdArr);
+};
+</script>
+<style>
+	body {
+		background-color:lightblue;
+		padding:40px;
+	}
+	section {
+		background-color:white;
+		border-radius:10px;
+		text-align:center;
+		padding:20px;
+	}
+</style>
+</head>
+<body>
+	<section>
+		<h1>도로명 조회하기(정적 Select 구조)</h1>
+		<article id = "describe">
+			<p> 사용법 : 시/도, 시/군/구, 읍/면/동 순서대로 선택하면<br>
+			원하는 지역의 도로명을 조회할 수 있습니다.<br>
+			&#8251; 현재 지원되는 지역은 서울특별시와 전라남도 일부입니다.
+			</p>
+		</article>
+		<article id = "selectArea">
+			<select id = "select0"></select>
+			<select id = "select1"></select>
+			<select id = "select2"></select>
+			<select id = "select3"></select>
+		</article>	
+	<a href = "exercise2.html">이전 버전 보기</a>
+	</section>
+</body>
+</html>

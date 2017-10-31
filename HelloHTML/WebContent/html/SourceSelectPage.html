@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Source Select</title>
+<style>
+footer {
+	border: 1px solid black;
+    width: auto;
+    padding : 5px;
+	height: 9%;
+	vertical-align:top;
+}
+footer #srcSet {
+    width: 100px;
+    height: 30px;
+}
+#map {
+	height: 80%;
+}
+html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+</style>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="../js/jquery-3.2.1.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfcFC3fDM3EZab4iaF_ZkzftKyjdtBaHE">
+</script>
+<script>
+function initMap(koreaLatlng) {
+	var marker = new google.maps.Marker();
+	var geocoder = new google.maps.Geocoder;
+	
+	var map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 7,
+		center: koreaLatlng,
+		mapTypeControl:false,
+		streetViewControl:false,
+		fullscreenControl:false
+	});
+	
+	google.maps.event.addListener(map, 'click', function(event) {
+	    marker.setPosition(event.latLng);
+	    marker.setMap(map);
+	    
+	    var location = {lat : event.latLng.lat(), lng : event.latLng.lng()};
+	    
+	    var srcFooter = document.getElementById("srcAddr");
+	    
+	    geocoder.geocode({'location': location}, function(results, status) {
+	          if (status === 'OK') {
+	            if (results[1]) {
+	            	srcFooter.innerHTML = results[0].formatted_address;
+	            } else {
+	              window.alert('No results found');
+	            }
+	          } else {
+	            window.alert('Geocoder failed due to: ' + status);
+	          }
+	        });
+	});
+	
+	return map;
+}
+
+$(function(){
+	var koreaLatlng = {lat: 35.7, lng: 127.8};
+	
+	var map = initMap(koreaLatlng);
+});
+</script>
+</head>
+<body>
+<div id="map"></div>
+<footer id="source">
+		<legend>선택된 출발지</legend>
+		<form action = "./tourInformation.php" method = "post">
+		<div id = "srcAddr"></div>
+		<input type = "submit" value = "출발지 설정" id = "srcSet">
+		</form>
+	</footer>
+</body>
+</html>

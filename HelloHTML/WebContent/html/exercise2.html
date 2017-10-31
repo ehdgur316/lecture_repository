@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>도로명 조회 2</title>
+<script type="text/javascript" src="../js/region.json"></script>
+<script>
+// IIFE와 window.onload를 복합적으로 사용하여 global 영역 보존
+(function(global){
+	var amountOfOption = 100;
+	
+	function setChangeEventListener(selectClass, selectValue) {
+		var idRadix = Number(selectClass.substring(selectClass.length - 1, selectClass.length));
+		var targetSelect = document.getElementsByClassName(selectClass)[0];
+		
+		for (var i = (idRadix + 1) ; i < targetSelect.parentNode.childNodes.length ; i++) {
+			targetSelect.parentNode.childNodes[i].childNodes[0].selected = true;
+			for (var j = 1 ; j < targetSelect.parentNode.childNodes[i].childNodes.length ; j) {
+				targetSelect.parentNode.childNodes[i].removeChild(targetSelect.parentNode.childNodes[i].lastChild);
+			}
+		}
+		
+		if (idRadix < calcIdRadix(selectValue)) {
+			createOptionTagByPid(selectClass.substring(0, selectClass.length - 1) + (idRadix + 1), selectValue);	
+		}
+	};
+	
+	function createOptionTagByPid(selectClass, pid) {
+		var idRadix = Number(selectClass.substring(selectClass.length - 1, selectClass.length));
+		
+		for (var del in region.area) {
+			if (region.area[del].pid == pid) {
+				var optionObj = document.createElement("OPTION");			
+				optionObj.value = region.area[del].id;
+				optionObj.innerHTML = region.area[del].name;
+				document.getElementsByClassName(selectClass)[0].appendChild(optionObj);
+			}
+		}
+	};
+	
+	function createSelectTagByIdRadix(idRadix, articleId) {
+		var selectObj = document.createElement("SELECT");
+		var optionObj = document.createElement("OPTION");
+		
+		optionObj.value = 0;
+		optionObj.innerHTML = "=선택=";
+		selectObj.appendChild(optionObj);
+		
+		// 문제점 2. className을 사용하여 발생한 중복 문제
+		selectObj.className = articleId + "_select_" + idRadix;
+		selectObj.addEventListener("change", function() { setChangeEventListener(this.className, this.value); });
+		document.getElementById(articleId).appendChild(selectObj);
+	};
+	
+	function calcIdRadix(id) {
+		var idRadix = 0;
+		
+		while (id >= 1) {
+			id /= amountOfOption;
+			idRadix++;
+		}
+		
+		return idRadix;
+	};
+	
+	function buildChainedSelectTag(id, articleId) {
+		var idRadix = calcIdRadix(id);
+		
+		for (var i = 0 ; i < idRadix ; i++) {
+			createSelectTagByIdRadix(i, articleId);
+		}
+		// 문제점 1. select0을 고정적으로 부여해서 발생한 활용 문제
+		createOptionTagByPid(articleId + "_select_0" , "");
+	};
+	//global 영역에 가장 초기에 실행되어야 하는 함수만을 공개
+	global._buildChainedSelectTag = buildChainedSelectTag;
+})(typeof window === "undefined" ? this : window);
+
+window.onload = function() {
+	_buildChainedSelectTag(region.area[0].id, "selectArea");
+};
+</script>
+<style>
+	body {
+		background-color:lightblue;
+		padding:40px;
+	}
+	section {
+		background-color:white;
+		border-radius:10px;
+		text-align:center;
+		padding:20px;
+	}
+</style>
+</head>
+<body>
+	<section>
+		<h1>도로명 조회하기(동적 Option 생성)</h1>
+		<article id = "describe">
+			<p> 사용법 : 시/도, 시/군/구, 읍/면/동 순서대로 선택하면<br>
+			원하는 지역의 도로명을 조회할 수 있습니다.<br>
+			&#8251; 현재 지원되는 지역은 서울특별시와 전라남도 일부입니다.
+			</p>
+		</article>
+		<article id = "selectArea"></article>
+	<a href = "exercise.html">이전 버전 보기</a>
+	<a href = "exercise3.html">다음 버전 보기</a>
+	</section>
+</body>
+</html>

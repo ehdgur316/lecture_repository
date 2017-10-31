@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+(function(global){
+	function test() {
+		document.getElementById("test").innerHTML = "TEST";
+	}
+	global._test = test;
+})(typeof window === "undefined" ? this : window);
+window.onload = function() {
+	_test();
+}
+</script>
+</head>
+<body>
+<article id = "test"></article>
+</body>
+</html>

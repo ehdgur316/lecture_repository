@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Prototype Chaining</title>
+<script>
+(function() {
+	function Person(name) {
+		this.name = name||"default";
+		this.getName = function() {
+			return this.name;
+		};
+		// 생성자 함수에서 반환값으로 원시값을 주면
+		// 반환값은 원시값 대신 명시적인 객체(thisBinding 대상)
+		// 반환값으로 객체(Object)를 주면 덮어쓰기
+		//return true;
+		//return {getName:this.getName};
+	}
+	
+	Person.prototype.version = 1.5;
+	Person.prototype.getVersion = function() {
+		return this.version;
+	};
+	
+	var person1 = new Person("홍길동");
+	var person2 = new Person("임꺽정");
+	var person3 = new Person("변사또");
+	
+	console.log(person1.getName());
+	console.log(person2.getName());
+	console.log(person3.getVersion());
+})();
+(function() {
+	function Person(name) {
+		this.name = name||"default";
+		this.getName = function() {
+			return this.name;
+		};
+	}
+	
+	Person.prototype = {
+		version:1.5,
+		getVersion:function() {
+			return this.version;
+		}
+	}
+	var person1 = new Person("홍길동");
+	
+	console.log(person1.getName());
+	// Prototype Chaining - this의 대상이 가지고 있지 않은 Property를 Prototype 체인을 따라가서 찾음
+	console.log(person1.getVersion());
+})();
+(function() {
+	function Person(name) {
+		// 생성자 함수 호출 방식으로 이 함수를 호출하지 않은 경우
+		// 생성자 함수를 활용해 함수를 실행하도록 하는 조건
+		if (!(this instanceof Person)) {
+			return new Person(name);
+		}
+		this.name = name||"default";
+		this.getName = function() {
+			return this.name;
+		};
+	}
+	
+	Person.prototype.version = 1.4;
+	Person.prototype.getVersion = function() {
+		return this.version;
+	};
+	// prototype 링크 __proto__가
+	// version, getVersion Property가 추가된
+	// 기존의 prototype을 가리키는 객체 foo
+	//  기존의 prototype -> constructor가 자동으로 내재됨
+	var foo = new Person("홍길동");
+	
+	Person.prototype = {
+		version:1.5,
+		getVersion:function() {
+			return this.version;
+		}
+	}
+	// prototype 링크 __proto__가
+	// version, getVersion Property만 갖고있는
+	// 새로운 prototype을 가리키는 객체 bar
+	//  새로운 prototype -> 생성할 때 선언한 Property만 포함함
+	var bar = new Person("홍길동");
+	
+	console.dir(foo);
+	console.dir(bar);
+	
+	// bar를 생성하는 과정에서 Person의 Prototype이 변함 -> instanceof 사용시 bar만 true
+	console.log(Object.getPrototypeOf(foo) === Person.prototype);
+	console.log(Object.getPrototypeOf(bar) === Person.prototype);
+	//console.log(foo instanceof Person);
+	//console.log(bar instanceof Person);
+})();
+</script>
+</head>
+<body>
+
+</body>
+</html>

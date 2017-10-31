@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>구글 지도 API</title>
+<style>
+#map {
+	height: 100%;
+}
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+form{
+        border: 1px solid black;
+        width: auto;
+        height: 100px;
+    }
+    form select{
+        width: 100px;
+        height: 30px;
+    }
+    form input{
+        width: 100px;
+        height: 20px;
+    }
+
+
+   
+</style>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+//해야할 일 1. 주요 도시의 좌표를 체계적으로 관리할 수 있는 방법
+//        2. 선택한 주요 도시 Marker의 위치에 따라 API에서 여행지 정보를 받아오는 방법
+//  주요 도시가 DB상의 도시 Table에 있고,
+//  API에서 가져온 정보도 전부 DB상의 여행지 Table에 있다고 가정하면
+// 	 MySQL 연동을 위한 PHP 사용
+//   때려박기(?)로 처리한 주요 도시 정보의 정리
+
+// Google Maps API 초기화
+function initMap() {
+	var latToKilometer = 0.008723;
+	var lngToKilometer = 0.011364;
+	var distance = 20;
+	// 여행지(Location)의 Marker를 모아놓을 배열
+	var locationMarkers = [];
+	var cityMarkers = [];
+	// 대한민국 중앙 위치(어림값)
+	var koreaLatlng = {lat: 35.7, lng: 127.8};
+	// Google Maps API로 맵 생성
+	var map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 7,
+		center: koreaLatlng,
+		mapTypeControl:false,
+		streetViewControl:false,
+		fullscreenControl:false
+	});
+	
+	// Marker 클릭(터치) 시 생성될 InfoWindow 객체 기본형 생성
+	var infoWindow = new google.maps.InfoWindow();
+
+	// 주요 도시(특별시/광역시/도 범주) 지역명과 좌표
+	//  -> 그냥 때려넣었는데 다른 방법이 없나?
+	var cityMarkerInfo = [
+		{
+			"title" : "서울특별시",
+			"latlng" : {"lat": 37.550865, "lng": 126.990231}
+		},
+		{
+			"title" : "대전광역시",
+			"latlng" : {"lat": 36.338361, "lng": 127.391318}
+		},
+		{
+			"title" : "대구광역시",
+			"latlng" : {"lat": 35.830113, "lng": 128.556854}
+		},
+		{
+			"title" : "울산광역시",
+			"latlng" : {"lat": 35.544570, "lng": 129.251739}
+		},
+		{
+			"title" : "부산광역시",
+			"latlng" : {"lat": 35.161511, "lng": 129.040252}
+		},
+		{
+			"title" : "광주광역시",
+			"latlng" : {"lat": 35.158255, "lng": 126.832420}
+		},
+		{
+			"title" : "제주특별자치도",
+			"latlng" : {"lat": 33.359459, "lng": 126.526266}
+		}
+	];
+
+	// 주요 도시에 Marker를 세우고 이벤트를 추가
+	//  -> for 루프가 비대함. 기능별로 쪼갤 방법을 구상할 것
+	for (var i = 0 ; i < cityMarkerInfo.length ; i++) {
+		// 주요 도시의 지역명과 좌표에 따라 Marker 생성
+		var cityMarker = new google.maps.Marker({
+			position: cityMarkerInfo[i].latlng,
+			map: map,
+			title: cityMarkerInfo[i].title
+		});
+		// Marker에 클릭(터치) 이벤트 리스너 추가
+		cityMarker.addListener('click', function() {
+			this.setMap(null);
+
+			// 줌이 12보다 작으면...
+			//  역할 1. 줌을 키우고 선택한 위치 주변에 있는
+			//         API로 가져온 여행지 Marker를 추가로 생성
+			//        (현재는 선택한 위치 주변이 아닌 무조건 노들섬 Marker가 생성됨)
+			//  역할 2. 여행지 Marker에 클릭(터치) 시
+			//         여행지 정보를 보여주는 InfoWindow 생성 이벤트 추가
+			//if (map.getZoom() < 12) {
+				map.setZoom(12);
+				map.setCenter(this.getPosition());
+
+				// testLocation -> 여행정보 API로 갖고온 여행지 정보(임시)
+				var testLocation = [
+				    {
+				    	"title": "노들섬",
+				    	"latlng": {"lat": 37.517743, "lng": 126.959747}
+				    },
+				    {
+				    	"title": "서울숲",
+				    	"latlng": {"lat": 37.544866, "lng": 127.039207}
+				    }
+				];
+				for (var j = 0 ; j < testLocation.length ; j++) {
+				if ((Math.abs(Number(testLocation[j].latlng.lat) - Number(this.getPosition().lat())) < latToKilometer * distance) && 
+						(Math.abs(Number(testLocation[j].latlng.lng) - Number(this.getPosition().lng())) < lngToKilometer * distance)) {
+					var locationMarker = new google.maps.Marker({
+						position: testLocation[j].latlng,
+						map: map,
+						title:testLocation[j].title
+					});
+
+					locationMarker.addListener('click', function() {
+						var infoString = '<div id = "info">' +
+									'<h3>' + this.title + '</h3>' +
+									'<p> API에서 가져온 ' + this.title + ' 정보</p>' +
+									'</div>' +
+									'<input type="button" value="도착지 설정">';
+
+						infoWindow.setContent(infoString);
+						infoWindow.open(map, this);
+					});
+
+					locationMarkers.push(locationMarker);
+				}
+				}
+			//}
+			// 줌이 12보다 크거나 같으면
+			//  역할 : 여행지가 아닌 주요 도시의 정보를 보여주는 InfoWindow 생성 이벤트 추가
+// 			else {
+// 				var infoString = '<div id = "info">' +
+// 						'<h3>' + this.title + '</h3>' +
+// 						'</div>';
+// 				infoWindow.setContent(infoString);
+
+// 				infoWindow.open(map, this);
+// 			}
+		});
+		cityMarkers.push(cityMarker);
+	}
+	
+	// InfoWindow가 열려있는지 아닌지 판단하는 함수
+	function isInfoWindowOpen(infoWindow){
+		var map = infoWindow.getMap();
+		return (map !== null && typeof map !== "undefined");
+	}
+	
+	// 맵 어디든 클릭(터치)했을 때 InfoWindow가 열려있으면 닫고,
+	// 아니면 맨 처음 맵으로 돌아가는 이벤트 리스너 추가
+	map.addListener('click', function() {
+		if (isInfoWindowOpen(infoWindow)) {
+			infoWindow.close();
+		}
+		else {
+			map.setZoom(7);
+			map.setCenter(koreaLatlng);
+			for (var i = 0 ; i < cityMarkers.length ; i++) {
+				cityMarkers[i].setMap(map);
+			}
+			for (var i = 0 ; i < cityMarkers.length ; i++) {
+				locationMarkers[i].setMap();
+			}
+			locationMarkers.length = 0;
+		}
+	});
+}
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyO6vDGiAtA-WZZnc2msPYNEIovBOpxcU&callback=initMap">
+</script>
+</head>
+<body>
+<div id="map"></div>
+</body>
+</html>

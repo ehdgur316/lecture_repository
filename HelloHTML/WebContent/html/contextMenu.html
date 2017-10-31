@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>네모네모 로직</title>
+<script src="../js/jquery-3.2.1.js"></script>
+<script src="../js/picross.json"></script>
+<script>
+$(function() {
+	// 공유 변수 모음
+	var picrossInnerWidthStart;
+	var picrossInnerWidthEnd;
+	var picrossInnerHeightStart;
+	var picrossInnerHeightEnd;
+	
+	var tableLineAmount;
+	var difficulty;
+	var gameNumber;
+	var answerArr = [];
+	var correctArr = [];
+	
+	// 다양한 상황에서의 좌표계 재정의를 위한 위치계산 함수
+	function calculatePosition() {
+		picrossInnerWidthStart = $('#picrossTable').offset().left+ $('#picrossTable td.firstCol').outerWidth();
+		picrossInnerWidthEnd = $('#picrossTable').offset().left + $('#picrossTable').outerWidth();
+		picrossInnerHeightStart = $('#picrossTable').offset().top + $('#picrossTable th').outerHeight();
+		picrossInnerHeightEnd = $('#picrossTable').offset().top + $('#picrossTable').outerHeight();	
+	}
+	
+	// 화면의 크기가 변하면 자동으로 좌표계 수정
+	$(window).resize(function() {
+		calculatePosition();
+	}).resize();
+	
+	// 마우스 휠을 동작하면 자동으로 좌표계 수정
+	$(window).on('mousewheel DOMMouseScroll', function() {
+		calculatePosition();
+	})
+	
+	// 난이도 라디오 버튼 변경시 게임 난이도 설정
+	$('input:radio[name=difficulty]').change(function() {
+		$('#guide').empty();
+		difficulty = $(this).val();
+		switch(difficulty) {
+			case "easy" : tableLineAmount = 5; break;
+			case "normal" : tableLineAmount = 10; break;
+			case "hard" : tableLineAmount = 20; break;
+		}
+		
+		makePicrossTable(difficulty, tableLineAmount, $('input:checkbox[name=isRandom]').is(':checked'));
+	});
+	
+	// 랜덤 생성 선택시 테이블을 지우고 라디오 버튼 초기화
+	$('input:checkbox[name=isRandom]').change(function() {
+		$('input:radio[name=difficulty]').prop('checked', false);
+		$('#guide').empty();
+		$('#picrossTable').empty();
+	});
+	
+	// 랜덤하게 피크로스 테이블을 난이도(tableLineAmount)에 맞춰 생성
+	function generateRandomPicross(tableLineAmount) {
+		var randPicross = {"hint" : [
+		                         {"xLine" : []},
+		                         {"yLine" : []}
+		                  ],
+						  "answer" : [
+						  ]};
+		for (var i = 0 ; i < tableLineAmount ; i++) {
+			for (var j = 0 ; j < tableLineAmount ; j++) {
+				randPicross.answer[i + j*(tableLineAmount)] = Math.round(Math.random());
+			}
+		}
+		for (var i = 0 ; i < tableLineAmount ; i++) {
+			var hintCnt = 0;
+			var hintArr = [];
+			
+			for (var j = 0 ; j < tableLineAmount ; j++) {
+				if (randPicross.answer[i + j*(tableLineAmount)] === 1) {
+					hintCnt++;
+				}
+				if ((hintCnt > 0) && (randPicross.answer[i + j*(tableLineAmount)] === 0)) {
+					hintArr.push(hintCnt);
+					hintCnt = 0;
+				}
+				else if ((hintCnt > 0) &&(j === (tableLineAmount - 1))) {
+					hintArr.push(hintCnt);
+					hintCnt = 0;
+				}
+			}
+			if (hintArr.length === 0) hintArr.push(0);
+			randPicross.hint[0].xLine.push(hintArr);
+		}
+		
+		for (var i = 0 ; i < tableLineAmount ; i++) {
+			var hintCnt = 0;
+			var hintArr = [];
+			
+			for (var j = 0 ; j < tableLineAmount ; j++) {
+				if (randPicross.answer[i*(tableLineAmount) + j] === 1) {
+					hintCnt++;
+				}
+				if ((hintCnt > 0) && (randPicross.answer[i*(tableLineAmount) + j] === 0)) {
+					hintArr.push(hintCnt);
+					hintCnt = 0;
+				}
+				else if ((hintCnt > 0) && (j === (tableLineAmount - 1))) {
+					hintArr.push(hintCnt);
+					hintCnt = 0;
+				}
+			}
+			if (hintArr.length === 0) hintArr.push(0);
+			randPicross.hint[1].yLine.push(hintArr);
+		}
+		
+		return randPicross;
+	}
+	
+	// 게임 난이도에 맞는 피크로스 테이블 생성
+	function makePicrossTable(difficulty, tableLineAmount, isRandom) {
+		$('#picrossTable').empty();
+		
+		var targetPicross;
+		
+		if (isRandom) {
+			targetPicross = generateRandomPicross(tableLineAmount);
+		}
+		else {
+			gameNumber = Math.floor((Math.random() * picross[difficulty].length));
+			targetPicross = picross[difficulty][gameNumber];
+			
+			var guideText;
+			switch(difficulty) {
+				case "easy" : guideText = "쉬움 "; break;
+				case "normal" : guideText = "보통 "; break;
+				case "hard" : guideText = "어려움 "; break;
+			} 
+			$('#guide').html(guideText + (gameNumber + 1) + "번");
+		}
+		
+		var oneLineHtml;
+		
+		for(var i = 0 ; i < tableLineAmount + 1 ; i++) {
+			if (i == 0) oneLineHtml = '<th></th>';
+			else {
+				oneLineHtml += '<th>';
+				if (targetPicross.hint[0].xLine[i-1].length > 1) {
+					for (var j = 0 ; j < targetPicross.hint[0].xLine[i-1].length ; j++) {
+						oneLineHtml += targetPicross.hint[0].xLine[i-1][j] + '<br>';
+					}
+				}
+				else oneLineHtml += targetPicross.hint[0].xLine[i-1];
+				oneLineHtml += '</th>';
+			}
+		}
+		$('#picrossTable').append('<tr>' + oneLineHtml);
+		
+		for (var i = 1 ; i < tableLineAmount + 1 ; i++) {
+			oneLineHtml = '<td class = "firstCol">';
+			if (targetPicross.hint[1].yLine[i-1].length > 1) {
+				for (var j = 0 ; j < targetPicross.hint[1].yLine[i-1].length ; j++) {
+					 oneLineHtml += targetPicross.hint[1].yLine[i-1][j] + " ";
+				}
+			}
+			else oneLineHtml += targetPicross.hint[1].yLine[i-1];
+			oneLineHtml += '</td>';
+			for (var j = 0 ; j < tableLineAmount ; j++) {
+				var row = i - 1;
+				var col = j;
+				oneLineHtml += '<td class = "block' + (i - 1) + '_' + j + '"></td>';
+			}
+			$('#picrossTable').append('<tr>' + oneLineHtml);
+		}
+		
+		calculatePosition();
+		
+		answerArr = [];
+		for(var i = 0 ; i < tableLineAmount ; i++) {
+			for(var j = 0 ; j < tableLineAmount ; j++) {
+				answerArr[i + j*(tableLineAmount)] = 0;
+			}
+		}
+		
+		correctArr = targetPicross.answer;
+	}
+	
+	// 사용자 정의 컨텍스트 메뉴(마우스 오른쪽 버튼)
+	$(document).bind("contextmenu", function(e) {
+		if((e.pageX > picrossInnerWidthStart && e.pageX < picrossInnerWidthEnd) &&
+			(e.pageY > picrossInnerHeightStart && e.pageY < picrossInnerHeightEnd)) {
+			e.preventDefault();
+			$('#customContext').fadeIn(200, function() {
+				$(document).on("click", function() {
+					$('#customContext').hide();
+					$(document).off("click");
+				});
+			});
+			$('#customContext').css("left", e.pageX);
+			$('#customContext').css("top", e.pageY);
+		}
+ 	});
+	
+	// 컨텍스트 메뉴의 항목 선택시 동작
+	$('#menuItem > li').on("click", function() {
+		var posX;
+		var posY;
+		
+		var widthSum = 0;
+		var heightSum = 0;
+		
+		for (var i = 1; i < tableLineAmount ; i++) {
+			widthSum += $('td[class^="block"]td[class$="' + (i - 1) + '"]').outerWidth() - 1;
+			if (i === 1 && (($('#customContext').offset().left > picrossInnerWidthStart) &&
+				($('#customContext').offset().left <= picrossInnerWidthStart + widthSum))) {
+				posX = 0;
+			}
+			else if (($('#customContext').offset().left > picrossInnerWidthStart + widthSum) &&
+				($('#customContext').offset().left <= picrossInnerWidthStart + widthSum + $('td[class^="block"]td[class$="' + i + '"]').outerWidth())) {
+				posX = i;
+			}
+			else continue;
+			for (var j = 1; j < tableLineAmount ; j++) {
+				heightSum += $('td[class^="block' + (j - 1) + '"]td[class$="' + i + '"]').outerHeight() - 1;
+				if (j === 1 && (($('#customContext').offset().top > picrossInnerHeightStart) &&
+					($('#customContext').offset().top <= picrossInnerHeightStart + heightSum))) {
+					posY = 0;
+					break;
+				}
+				else if (($('#customContext').offset().top > picrossInnerHeightStart + heightSum) &&
+					($('#customContext').offset().top <= picrossInnerHeightStart + heightSum + $('td[class^="block' + j + '"]td[class$="' + i + '"]').outerWidth())) {
+					posY = j;
+					break;
+				}
+			}
+		}
+		
+		if ((typeof posX === "undefined") || (typeof posY === "undefined")) {
+			return;
+		}
+		
+		var color;
+		switch ($(this).attr('id')) {
+			case "fillColor" : color = "black"; break;
+			case "markTemp" : color = "yellow"; break;
+			case "markFault" : color = "red"; break;
+			case "removeColor" : color = "white"; break;
+			default : color = "white";
+		}
+		$('.block'+posY+'_'+posX).css("background", color);
+		if (color === "black") {
+			answerArr[posX + posY*(tableLineAmount)] = 1;
+		}
+		else {
+			answerArr[posX + posY*(tableLineAmount)] = 0;
+		}
+	});
+	
+	// 버튼 이벤트 1. 정답 확인 버튼
+	$('#checkAnswer').on("click", function() {
+		if (answerArr.length == correctArr.length && answerArr.every(function(v, i) {return v === correctArr[i]})) {
+			switch (difficulty) {
+				case "easy" : case "normal" : alert("축하합니다! 더 어려운 난이도에 도전해보세요!"); break;
+				case "hard" : alert("축하합니다!");
+			}
+		} else {
+			alert("아쉽지만 오답입니다. 다시 한 번 확인해보세요.");
+		}
+	})
+	
+	// 버튼 이벤트 2. 모두 지우기 버튼
+	$('#cleanAll').on("click", function() {
+		for (var i = 0 ; i < tableLineAmount ; i++) {
+			for (var j = 0 ; j < tableLineAmount ; j++) {
+				$('.block'+j+'_'+i).css("background", "white");
+			}
+		}
+		for(var i = 0 ; i < tableLineAmount ; i++) {
+			for(var j = 0 ; j < tableLineAmount ; j++) {
+				answerArr[i + j*(tableLineAmount)] = 0;
+			}
+		}
+	})
+});
+</script>
+<style>
+header, article {
+	text-align:center;
+}
+#customContext {
+	display:none;
+	position:absolute;
+	border:1px solid black;
+	background:aliceblue;
+	font-size:.9em;
+}
+#menuItem {
+	list-style:none;
+	margin:3px;
+	padding:0px;
+	cursor:pointer;
+}
+#menuItem > li:hover {
+	display:block;
+	background-color:lightblue;
+}
+#picrossTable {
+	border-collapse:collapse;
+	border-spacing:0;
+	border:2px solid black;
+	margin:auto;
+	font-size:.8em;
+}
+table#picrossTable th:first-child {
+	border-right:1px solid black;
+	border-bottom:1px solid black;
+}
+table#picrossTable th:nth-child(5n+6) {
+	border-right:2px solid black;
+}
+table#picrossTable td:nth-child(5n+6) {
+	border-right:2px solid black;
+}
+table#picrossTable tr:nth-child(5n+6) {
+	border-bottom:2px solid black;
+}
+table#picrossTable th {
+	border:0px;
+	vertical-align:bottom;
+}
+table#picrossTable td {
+	padding:5px 10px;
+	border:1px solid black;
+	overflow:hidden;
+	word-break:normal;
+}
+table#picrossTable td.firstCol {
+	padding:5px 0px;
+	border:0px;
+	font-weight:bold;
+	text-align:right;
+}
+</style>
+</head>
+<body>
+<div id = "customContext">
+<ul id = "menuItem">
+	<li id = "fillColor"><span style = "color:black;">&#9608;</span>색칠하기</li>
+	<li id = "markTemp"><span style = "color:yellow;">&#9608;</span>예비표시</li>
+	<li id = "markFault"><span style = "color:red;">&#9608;</span>오답표시</li>
+	<li id = "removeColor"><span style = "color:white;">&#9608;</span>색지우기</li>
+</ul>
+</div>
+<header><h2>네모네모 로직</h2></header>
+<article id = "tutorial">
+하는 법 : 가로/세로 줄의 맨 처음에 각 줄마다 연속으로 칠해야 할 칸의 수가 적혀있습니다.<br>
+ex) 세로 줄 맨 처음이 1 3이면 그 세로 줄에는 1칸과 3칸 칠해진 칸만 있어야 함.<br>
+마우스 오른쪽 버튼을 눌러 정답에 해당하는 칸을 모두 검은색으로 칠한 뒤<br>
+정답 확인 버튼을 눌러 정답 여부를 확인해주세요.<br>
+(예비/오답표시는 색칠로 간주하지 않습니다.)
+</article><br>
+<article id = "gameDifficulty">
+<input type = "checkbox" name = "isRandom" value = "randTrue">랜덤 생성
+<input type = "radio" name = "difficulty" value = "easy">쉬움(5&#10005;5)
+<input type = "radio" name = "difficulty" value = "normal">보통(10&#10005;10)
+<input type = "radio" name = "difficulty" value = "hard">어려움(20&#10005;20)
+</article><br>
+<article id = "guide">난이도를 선택하면 게임이 시작됩니다.</article>
+<article id = "picrossField">
+<table id = "picrossTable"></table><br>
+<input type = "button" id = "cleanAll" value = "모두 지우기">
+<input type = "button" id = "checkAnswer" value = "정답 확인">
+</article>
+</body>
+</html>

@@ -34,17 +34,6 @@ var changeEventHandler = function() {
 	if ((this.value != 0) && ((this.value) % 100 == 0)) {		
 		addSelect(this.value);
 	}
-	if ((this.value % 100) > 0) {
-		var result = "";
-		for (var i = 0 ; i < this.parentNode.childNodes.length ; i++) {
-			for (index in region.area) {
-				if (region.area[index].id == this.parentNode.childNodes[i].value) {
-					result += region.area[index].name + " ";
-				}	
-			}
-		}
-		alert(result);
-	}
 }
 
 window.onload = function() {
@@ -66,14 +55,15 @@ window.onload = function() {
 </head>
 <body>
 	<section>
-		<h1>도로명 조회하기</h1>
+		<h1>도로명 조회하기(동적 Select 생성)</h1>
 		<article id = "describe">
 			<p> 사용법 : 시/도, 시/군/구, 읍/면/동 순서대로 선택하면<br>
 			원하는 지역의 도로명을 조회할 수 있습니다.<br>
-			&#8251; 현재 지원되는 도시는 서울특별시와 전라남도 일부입니다.
+			&#8251; 현재 지원되는 지역은 서울특별시와 전라남도 일부입니다.
 			</p>
 		</article>
 		<article id = "selectArea"></article>
+		<a href = "exercise2.html">다음 버전 보기</a>
 	</section>
 </body>
 </html>

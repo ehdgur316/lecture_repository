@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Page With jQuery</title>
+<script src="../js/jquery-3.2.1.js"></script>
+<script>
+// ready 함수를 사용한 window.onload 구현
+$(document).ready(function() {
+	// jQuery의 prototype에 메서드를 추가하는 방법
+	
+	//  1. ($.fn|jQuery.fn.init.prototype) 객체에 메서드 추가
+	jQuery.fn.init.prototype.greenify = function() {
+	//$.fn.greenify = function() {
+		return this.each(function(index, ele) {
+			$(ele).css({backgroundColor:"green"});
+		});
+	};
+	
+	//  2. extend() 함수 사용
+	$.fn.extend({
+		changeCssColor:function() {
+			return this.each(function(index, ele) {
+				$(ele).css({backgroundColor:"red"});
+			});
+		}
+	});
+	
+	// 번외 - jQuery의 객체(prototype이 아님)에만 메서드 추가
+	jQuery.yellowify = function(elements) {
+		$(elements).css({backgroundColor:"yellow"});
+	}
+// 	$.extend({greenify:function(elements) {
+// 		$(elements).css({backgroundColor:"green"});
+// 		}
+// 	});
+	
+	var $divfoo = $('div.foo').click(function() {
+		$('span', this).toggleClass('bar');
+		//$(this).css({border:"1px solid black"});
+	});
+	
+	$('#appendDiv').on("click", function() {
+		$('<div/>', {
+			"class":"default",
+			text:"Click me!",
+			click:function() {
+				$(this).toggleClass("test");
+			}
+		}).appendTo("body");
+	});
+	
+	$divfoo.greenify();
+	
+	$('#header').greenify().changeCssColor();
+	//jQuery('#header').greenify();
+	
+	$('#contents').changeCssColor();
+	//jQuery('#contents').changeCssColor();
+	
+	$.yellowify('div.yellow');
+});
+
+// jQuery만을 사용한 window.onload 구현
+$(function() {
+	
+});
+
+// window.onload = function() {
+// 	var divfoo = $('div.foo');
+// 	divfoo.click(function() {
+// 		// this -> function와 Binding된 divfoo가 대상
+// 		var $this = $(this);
+// 		$('span', this).addClass('bar');
+// 	});
+
+
+// 	$.each([1, 2, 3, 4], function(index, value) {
+// 		console.log(index, value);
+// 	});
+	
+// 	divfoo.each(function(index, value) {
+// 		console.log(this);
+// 	}).click(function() {
+// 		alert('Clicked');
+// 	});
+// }
+</script>
+<style>
+div.default {
+	border:1px dotted red;
+}
+div.test {
+	background-color:red;
+}
+div.foo > span.bar {
+	background-color:blue;
+	color:red;
+}
+</style>
+</head>
+<body>
+	<input type = "button" id = "appendDiv" value = "div추가">
+	<div id = "header">header</div>
+	<div class = "yellow">yellow</div>
+	<div id = "contents">contents</div>
+	<div class = "foo">
+		<span>첫번째 div</span>
+	</div>
+	<div class = "foo">
+		<span>두번째 div</span>
+	</div>
+</body>
+</html>

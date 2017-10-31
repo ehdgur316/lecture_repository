@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Closure Bad Case</title>
+<script>
+window.onload = function() {
+	var btnIds = ["first", "second", "third"];
+	var names = ["hello", "hi", "good-bye"];
+	
+	// 요구사항 - 각 버튼을 순서대로 넣으면 names의 값을 순서대로 출력되게 함
+	//(first를 누르면 hello, second를 누르면 hi, third를 누르면 good-bye가 출력)
+	for (var i = 0 ; i < btnIds.length ; i++) {
+		var ele = document.getElementById(btnIds[i]);
+		ele.addEventListener("click",
+			// IIFE
+			(function(j) {
+				// 반환 함수
+				return function() {
+					alert(names[j]);
+				};
+			})(i)
+		);
+	}
+	// 실제 실행 결과 -> undefined(names[3])
+	// i의 값이 closure가 되어 지속적으로 남아있음. 어느 버튼을 눌러도 names[3] 호출
+	// 해결책 -> addEventListener 내의 함수를 IIFE로 선언하고,
+	// IIFE에서 i를 사용하는 function을 선언, 반환해줌(closure의 closure)
+}
+</script>
+</head>
+<body>
+<input id="first" type="button" value="first">
+<input id="second" type="button" value="second">
+<input id="third" type="button" value="third">
+</body>
+</html>

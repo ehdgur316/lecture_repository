@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Eval and With Function</title>
+<script>
+// eval 함수 -> eval() 함수를 사용한 함수
+// 문자열로 제시된 명령어를 강제로 실행하는 함수 eval()
+// 강제성에 의한 보안취약점, 캐싱 불가 등의 사유로 사용하지 않을 것을 권고
+(function() {
+	var obj = {data:[1,2,3],
+			validDate:"20170823"};
+	var property = getProperty();
+	
+	// data1과 data2의 실행결과는 동일
+	var data1 = obj[property];
+	//var data2 = eval("obj." + property);
+	
+	function getProperty() {
+		return "data";
+	}
+	console.log();
+})();
+
+// with 함수 -> with() 함수를 사용한 함수
+// 변수의 유효범위 체인을 임시로 변경하는 함수 with()
+// 식별자 정보에 혼동을 주기 때문에 사용하지 않을 것을 권고
+(function() {
+	var obj = {data:{innerData:{realData:1234}}};
+	inner();
+	function inner() {
+		with(obj.data.innerData) {
+			console.log(realData);			
+		}
+	}
+})();
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JavaScript Inheritance</title>
+<script>
+(function() {
+	// 생성자 함수 Person
+	function Person(arg) {
+		this.name = arg;
+	}
+	
+	// 모든 function의 prototype에 method 함수를 추가
+	Function.prototype.method = function(name, func) {
+		this.prototype[name] = func;
+	};
+	
+	// Person(this)의 prototype(Function)에 setName Property를 추가,
+	// setName Property에 this.name = value; 기능을 가진 함수 할당
+	Person.method("setName", function(value) {
+		this.name = value;
+	});
+	Person.method("getName", function() {
+		return this.name;
+	});
+	
+	function Student() {
+		this.admissionDate
+	}
+	
+	// Student와 Person 사이의 중간자 F
+	function F() {};
+	
+	// F의 prototype은 Person의 prototype
+	F.prototype = Person.prototype;
+	// Student의 prototype은 중간자 F
+	Student.prototype = new F();
+	// Student의 prototype을 new F();로 생성하면서 날아간 생성자를 추가
+	Student.prototype.constructor = Student;
+	
+	var me = new Student();
+	me.setName("홍길동");
+	console.log(me.getName());
+})();
+</script>
+</head>
+<body>
+
+</body>
+</html>

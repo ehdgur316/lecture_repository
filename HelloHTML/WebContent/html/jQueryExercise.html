@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Custom Toggle Class</title>
+<script src="../js/jquery-3.2.1.js"></script>
+<script>
+//addClass(), removeClass(), hasClass() 3가지를 활용해 toggleClass() 구현
+$(function() {
+	$.fn.userToggleClass = function(className) {
+		// for ~ in 구문으로도 반복하여 구현 가능(단, return을 통한 함수 체이닝 구현에 주의)
+ 		return this.each(function(index, ele) {
+ 			if ($(ele).hasClass(className)) {
+ 				$(ele).removeClass(className);
+ 			}
+ 			else {
+ 				$(ele).addClass(className);
+ 			}
+ 		});
+	};
+	
+	$('#testButton').on('click', function() {
+		$('div').userToggleClass('test');
+	});
+});
+</script>
+<style>
+div.test {
+	background-color:Black;
+	color:white;
+	font-size:3em;
+}
+</style>
+</head>
+<body>
+<input type = "button" id = "testButton" value = "Test Button">
+<div>Target div</div>
+<div class = "test">Target div</div>
+<div>Target div</div>
+<div class = "test">Target div</div>
+<div>Target div</div>
+<div class = "test">Target div</div>
+<div>Target div</div>
+<div class = "test">Target div</div>
+</body>
+</html>
